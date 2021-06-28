@@ -1,0 +1,34 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/project-JM/Server.git",
+  "author": "baejongyeon <jongbae7978@gmail.com>, vagabondms <hiseokseok@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "tsc && nodemon dist/server.js",
+    "dev": "tsc -w"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.12",
+    "@typescript-eslint/eslint-plugin": "^4.28.0",
+    "@typescript-eslint/parser": "^4.28.0",
+    "eslint": "^7.29.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.7",
+    "prettier": "^2.3.1",
+    "typescript": "^4.3.4"
+  },
+  "dependencies": {
+    "@types/cors": "^2.8.10",
+    "@types/morgan": "^1.9.2",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.34"
+  }
+}
