@@ -10,4 +10,5 @@ module.exports = {
   entities: ['dist/entity/*.js'],
   logging: false,
   synchronize: true,
+  dropSchema: true, // each time connection being established, DB will be refreshed
 };
