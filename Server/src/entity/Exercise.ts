@@ -31,7 +31,9 @@ export default class Exercise extends BaseEntity {
   @Column()
   img!: string;
 
-  //* associations
+  /* 
+    associations 
+  */
   @ManyToOne(() => Class1, class1 => class1.exercises)
   @JoinColumn({ name: 'cl1' })
   class1!: Class1;

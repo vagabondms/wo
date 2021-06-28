@@ -9,6 +9,9 @@ export default class Class1 extends BaseEntity {
   @Column()
   category: string;
 
+  /* 
+    associations 
+  */
   @OneToMany(() => Exercise, exercise => exercise.class1)
   exercises!: Exercise[];
 

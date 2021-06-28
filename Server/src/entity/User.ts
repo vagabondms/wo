@@ -24,6 +24,9 @@ export default class User extends BaseEntity {
   @Column()
   nickname: string;
 
+  /* 
+    associations 
+  */
   @OneToMany(() => Record, record => record.user)
   records!: Record[];
 

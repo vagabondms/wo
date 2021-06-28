@@ -23,6 +23,9 @@ export default class Post extends BaseEntity {
   @CreateDateColumn()
   created_at!: Date;
 
+  /* 
+    associations 
+  */
   @OneToMany(() => PostImage, postImages => postImages.post)
   postImages!: PostImage[];
 

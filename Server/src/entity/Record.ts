@@ -24,6 +24,9 @@ export default class Record extends BaseEntity {
   @CreateDateColumn()
   created_at!: Date;
 
+  /* 
+    associations 
+  */
   @ManyToOne(() => User, user => user.records)
   user: User;
 

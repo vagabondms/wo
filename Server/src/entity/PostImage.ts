@@ -9,6 +9,9 @@ export default class PostImage extends BaseEntity {
   @Column()
   src: string;
 
+  /* 
+    associations 
+  */
   @ManyToOne(() => Post, post => post.postImages)
   post!: Post;
 

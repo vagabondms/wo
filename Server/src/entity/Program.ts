@@ -21,6 +21,9 @@ export default class Program extends BaseEntity {
   @Column()
   isShared: boolean;
 
+  /* 
+    associations 
+  */
   @ManyToOne(() => User, user => user.programs)
   @JoinColumn()
   owner: User;
