@@ -7,8 +7,8 @@ import {
   ManyToMany,
   JoinTable,
 } from 'typeorm';
-import Program from './Program';
-import Record from './Record';
+import Program from './Program.entity';
+import Record from './Record.entity';
 
 @Entity()
 export default class User extends BaseEntity {
@@ -47,10 +47,10 @@ export default class User extends BaseEntity {
   })
   users!: User[];
 
-  constructor(a: string, b: string, c: string) {
+  constructor(email: string, password: string, nickname: string) {
     super();
-    this.email = a;
-    this.password = b;
-    this.nickname = c;
+    this.email = email;
+    this.password = password;
+    this.nickname = nickname;
   }
 }

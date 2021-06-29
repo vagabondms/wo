@@ -3,7 +3,8 @@ import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import { createConnection } from 'typeorm';
-import user from './routes/user';
+import router from './routes/';
+
 const app = express();
 
 // * connect to mysql
@@ -20,6 +21,8 @@ app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
 
-app.use('/user', user);
+// * routes
+app.use('/', router);
+
 // export
 export default app;

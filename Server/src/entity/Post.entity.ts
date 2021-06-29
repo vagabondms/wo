@@ -8,9 +8,9 @@ import {
   ManyToMany,
   JoinTable,
 } from 'typeorm';
-import PostImage from './PostImage';
-import Record from './Record';
-import User from './User';
+import PostImage from './PostImage.entity';
+import Record from './Record.entity';
+import User from './User.entity';
 
 @Entity()
 export default class Post extends BaseEntity {
@@ -38,8 +38,8 @@ export default class Post extends BaseEntity {
   })
   users!: User[];
 
-  constructor(c: string) {
+  constructor(content: string) {
     super();
-    this.content = c;
+    this.content = content;
   }
 }

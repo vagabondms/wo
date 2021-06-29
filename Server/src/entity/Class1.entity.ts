@@ -1,5 +1,5 @@
 import { BaseEntity, Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import Exercise from './Exercise';
+import Exercise from './Exercise.entity';
 
 @Entity()
 export default class Class1 extends BaseEntity {

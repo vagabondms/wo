@@ -6,9 +6,9 @@ import {
   CreateDateColumn,
   ManyToOne,
 } from 'typeorm';
-import Exercise from './Exercise';
-import User from './User';
-import Post from './Post';
+import Exercise from './Exercise.entity';
+import User from './User.entity';
+import Post from './Post.entity';
 
 @Entity()
 export default class Record extends BaseEntity {
@@ -28,7 +28,7 @@ export default class Record extends BaseEntity {
     associations 
   */
   @ManyToOne(() => User, user => user.records)
-  user: User;
+  user!: User;
 
   @ManyToOne(() => Post, post => post.records)
   post!: Post;
@@ -36,10 +36,9 @@ export default class Record extends BaseEntity {
   @ManyToOne(() => Exercise, exercise => exercise.records)
   exercise!: Exercise;
 
-  constructor(w: number, r: number, u: User) {
+  constructor(weight: number, reps: number) {
     super();
-    this.weight = w;
-    this.reps = r;
-    this.user = u;
+    this.weight = weight;
+    this.reps = reps;
   }
 }

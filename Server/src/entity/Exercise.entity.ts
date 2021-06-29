@@ -9,10 +9,10 @@ import {
   OneToMany,
   JoinTable,
 } from 'typeorm';
-import Class1 from './Class1';
-import Class2 from './Class2';
-import Program from './Program';
-import Record from './Record';
+import Class1 from './Class1.entity';
+import Class2 from './Class2.entity';
+import Program from './Program.entity';
+import Record from './Record.entity';
 
 @Entity()
 export default class Exercise extends BaseEntity {
@@ -25,10 +25,10 @@ export default class Exercise extends BaseEntity {
   @Column()
   desc: string;
 
-  @Column()
+  @Column({ nullable: true })
   vid!: string;
 
-  @Column()
+  @Column({ nullable: true })
   img!: string;
 
   /* 
@@ -51,9 +51,9 @@ export default class Exercise extends BaseEntity {
   @OneToMany(() => Record, record => record.exercise)
   records!: Record[];
 
-  constructor(n: string, d: string) {
+  constructor(name: string, desc: string) {
     super();
-    this.name = n;
-    this.desc = d;
+    this.name = name;
+    this.desc = desc;
   }
 }

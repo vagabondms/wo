@@ -1,5 +1,5 @@
 import { BaseEntity, Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import Post from './Post';
+import Post from './Post.entity';
 
 @Entity()
 export default class PostImage extends BaseEntity {

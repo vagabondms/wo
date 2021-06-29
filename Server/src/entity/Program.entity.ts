@@ -8,7 +8,7 @@ import {
   JoinColumn,
   JoinTable,
 } from 'typeorm';
-import User from './User';
+import User from './User.entity';
 
 @Entity()
 export default class Program extends BaseEntity {
@@ -26,7 +26,7 @@ export default class Program extends BaseEntity {
   */
   @ManyToOne(() => User, user => user.programs)
   @JoinColumn()
-  owner: User;
+  owner!: User;
 
   @ManyToMany(() => User)
   @JoinTable({
@@ -34,10 +34,9 @@ export default class Program extends BaseEntity {
   })
   users!: User[];
 
-  constructor(n: string, i: boolean, o: User) {
+  constructor(name: string, isShared: boolean) {
     super();
-    this.name = n;
-    this.isShared = i;
-    this.owner = o;
+    this.name = name;
+    this.isShared = isShared;
   }
 }
