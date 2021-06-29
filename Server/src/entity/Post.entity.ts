@@ -7,6 +7,7 @@ import {
   OneToMany,
   ManyToMany,
   JoinTable,
+  ManyToOne,
 } from 'typeorm';
 import PostImage from './PostImage.entity';
 import Record from './Record.entity';
@@ -17,7 +18,7 @@ export default class Post extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
+  @Column('varchar', { length: 500 })
   content: string;
 
   @CreateDateColumn()
@@ -32,11 +33,14 @@ export default class Post extends BaseEntity {
   @OneToMany(() => Record, record => record.post)
   records!: Record[];
 
+  @ManyToOne(() => User, user => user.posts)
+  writer!: User;
+
   @ManyToMany(() => User)
   @JoinTable({
     name: 'like',
   })
-  users!: User[];
+  likers!: User[];
 
   constructor(content: string) {
     super();

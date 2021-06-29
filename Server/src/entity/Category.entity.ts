@@ -2,7 +2,7 @@ import { BaseEntity, Entity, Column, PrimaryGeneratedColumn, OneToMany } from 't
 import Exercise from './Exercise.entity';
 
 @Entity()
-export default class Class2 extends BaseEntity {
+export default class Category extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -12,11 +12,11 @@ export default class Class2 extends BaseEntity {
   /* 
     associations 
   */
-  @OneToMany(() => Exercise, exercise => exercise.class2)
+  @OneToMany(() => Exercise, exercise => exercise.category)
   exercises!: Exercise[];
 
-  constructor(c: string) {
+  constructor(category: string) {
     super();
-    this.category = c;
+    this.category = category;
   }
 }

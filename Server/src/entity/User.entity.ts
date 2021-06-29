@@ -7,6 +7,7 @@ import {
   ManyToMany,
   JoinTable,
 } from 'typeorm';
+import Post from './Post.entity';
 import Program from './Program.entity';
 import Record from './Record.entity';
 
@@ -30,8 +31,17 @@ export default class User extends BaseEntity {
   @OneToMany(() => Record, record => record.user)
   records!: Record[];
 
+  @OneToMany(() => Post, post => post.writer)
+  posts!: Post[];
+
   @OneToMany(() => Program, program => program.owner)
   programs!: Program[];
+
+  @ManyToMany(() => Post)
+  @JoinTable({
+    name: 'like',
+  })
+  likes!: Post[];
 
   @ManyToMany(() => User)
   @JoinTable({
