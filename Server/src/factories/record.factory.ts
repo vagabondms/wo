@@ -1,5 +1,6 @@
 import Faker from 'faker';
 import { define } from 'typeorm-seeding';
+
 import Record from '../entity/Record.entity';
 
 define(Record, (faker: typeof Faker) => {
