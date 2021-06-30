@@ -1,7 +1,6 @@
 import { Factory, Seeder } from 'typeorm-seeding';
 
 import Category from '../entity/Category.entity';
-
 import Exercise from '../entity/Exercise.entity';
 
 export default class CreateExercises implements Seeder {

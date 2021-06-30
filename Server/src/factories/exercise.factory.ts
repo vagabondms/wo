@@ -1,5 +1,6 @@
 import Faker from 'faker';
 import { define } from 'typeorm-seeding';
+
 import Exercise from '../entity/Exercise.entity';
 
 define(Exercise, (faker: typeof Faker) => {
