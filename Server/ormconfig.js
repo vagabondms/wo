@@ -12,5 +12,5 @@ module.exports = {
   factories: ['dist/factories/**/*.js'], // factory를 위한 디렉토리
   logging: false,
   synchronize: true,
-  dropSchema: true, // each time connection being established, DB will be refreshed.
+  // dropSchema: true, // each time connection being established, DB will be refreshed.
 };
