@@ -12,6 +12,7 @@ export const getPosts = async (req: Request, res: Response, next: NextFunction):
       .createQueryBuilder('post')
       .orderBy('post.created_at', 'DESC')
       .where(`post.id < :lastId`, { lastId })
+      .limit(10)
       .leftJoinAndSelect('post.records', 'record')
       .leftJoinAndSelect('record.exercise', 'exercise')
       .select(['post', 'record', 'exercise.id', 'exercise.name', 'exercise.img'])
