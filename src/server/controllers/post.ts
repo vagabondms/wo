@@ -10,8 +10,8 @@ export const getPosts = async (req: Request, res: Response, next: NextFunction):
 
     const posts: Post[] | undefined = await getRepository(Post)
       .createQueryBuilder('post')
-      .offset(lastId) // * offset : 시작 id , limit : 시작 id 이후 몇개를 사용할지.
-      .limit(10)
+      .orderBy('post.created_at', 'DESC')
+      .where(`post.id < :lastId`, { lastId })
       .leftJoinAndSelect('post.records', 'record')
       .leftJoinAndSelect('record.exercise', 'exercise')
       .select(['post', 'record', 'exercise.id', 'exercise.name', 'exercise.img'])
@@ -35,6 +35,7 @@ export const getPost = async (req: Request, res: Response, next: NextFunction): 
   try {
     const post: Post | undefined = await getRepository(Post)
       .createQueryBuilder('post')
+      .addSelect('post.content') // hidden column으로 설정되어 있음.
       .where('post.id = :id', { id: req.params.id })
       .getOne();
 
