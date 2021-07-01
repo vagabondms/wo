@@ -22,13 +22,13 @@ export default class Exercise extends BaseEntity {
   @Column()
   name: string;
 
-  @Column('varchar', { length: 500 })
+  @Column({ type: 'varchar', length: 500, select: false })
   desc: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, select: false })
   vid!: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, select: false })
   img!: string;
 
   /* 

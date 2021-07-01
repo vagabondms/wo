@@ -18,7 +18,7 @@ export default class Post extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column('varchar', { length: 500 })
+  @Column({ type: 'varchar', length: 500, select: false })
   content: string;
 
   @CreateDateColumn()

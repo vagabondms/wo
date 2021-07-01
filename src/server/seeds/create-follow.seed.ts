@@ -11,6 +11,7 @@ export default class CreateFollow implements Seeder {
           .map(async (user: User) => {
             const users: User[] = await factory(User)().createMany(2);
             user.users = users;
+
             return user;
           })
           .createMany(2);
