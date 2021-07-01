@@ -2,11 +2,16 @@ import { NextFunction, Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 
 import Post from '../entity/Post.entity';
+import Record from '../entity/Record.entity';
+
+import { Id, NewPostInfo } from 'types/post';
+import User from '../entity/User.entity';
+import PostImage from '../entity/PostImage.entity';
 
 // * 게시글 전체 보기
 export const getPosts = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const lastId: number = req.body.lastId;
+    const lastId: Id = req.body.lastId;
 
     const posts: Post[] | undefined = await getRepository(Post)
       .createQueryBuilder('post')
@@ -14,8 +19,10 @@ export const getPosts = async (req: Request, res: Response, next: NextFunction):
       .where(`post.id < :lastId`, { lastId })
       .limit(10)
       .leftJoinAndSelect('post.records', 'record')
+      .leftJoinAndSelect('post.writer', 'writer')
+      .leftJoinAndSelect('post.likers', 'liker')
       .leftJoinAndSelect('record.exercise', 'exercise')
-      .select(['post', 'record', 'exercise.id', 'exercise.name', 'exercise.img'])
+      .addSelect('writer.nickname') // writer.nickname은 hidden column임.
       .getMany();
 
     if (!posts) {
@@ -36,8 +43,12 @@ export const getPost = async (req: Request, res: Response, next: NextFunction): 
   try {
     const post: Post | undefined = await getRepository(Post)
       .createQueryBuilder('post')
-      .addSelect('post.content') // hidden column으로 설정되어 있음.
       .where('post.id = :id', { id: req.params.id })
+      .leftJoinAndSelect('post.postImages', 'postImage')
+      .leftJoinAndSelect('post.writer', 'writer')
+      .leftJoinAndSelect('post.likers', 'liker')
+      .leftJoinAndSelect('post.records', 'record')
+      .addSelect(['post.content', 'writer.nickname']) // 히든칼럼 추가해주기
       .getOne();
 
     if (!post) {
@@ -60,6 +71,45 @@ export const createPost = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
+    const { recordIds, userId, postImagesIds, content }: NewPostInfo = req.body;
+
+    //* recordIds에 따른 records 생성
+
+    const records: Record[] | undefined = await getRepository(Record)
+      .createQueryBuilder('record')
+      .where('record.id IN (:...ids)', { ids: recordIds })
+      .getMany();
+
+    const user: User | undefined = await getRepository(User)
+      .createQueryBuilder('user')
+      .where('user.id = :id', { id: userId })
+      .getOne();
+
+    const postImages: PostImage[] | undefined = await getRepository(PostImage)
+      .createQueryBuilder('postImage')
+      .where('postImage.id In (:...ids)', { ids: postImagesIds })
+      .getMany();
+
+    //TODO: 다른 아이들과 이어 붙여야 함.
+    const {
+      raw: { insertId },
+    } = await getRepository(Post)
+      .createQueryBuilder()
+      .insert()
+      .values({ content, postImages: postImages, records, writer: user })
+      .execute();
+
+    const newPost = await getRepository(Post)
+      .createQueryBuilder('post')
+      .where('post.id = :id', { id: insertId })
+      .leftJoinAndSelect('post.postImages', 'postImage')
+      .leftJoinAndSelect('post.writer', 'writer')
+      .leftJoinAndSelect('post.likers', 'liker')
+      .leftJoinAndSelect('post.records', 'record')
+      .addSelect('post.content')
+      .getOne();
+
+    res.status(200).send(newPost);
     return;
   } catch (err) {
     console.error(err);
