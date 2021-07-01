@@ -44,7 +44,7 @@ export default class Exercise extends BaseEntity {
   })
   programs!: Program[];
 
-  @ManyToMany(() => Record, record => record.exercises)
+  @OneToMany(() => Record, record => record.exercise)
   records!: Record[];
 
   constructor(name: string, desc: string) {

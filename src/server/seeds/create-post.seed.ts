@@ -30,8 +30,8 @@ export default class CreatePost implements Seeder {
 
         const records = await factory(Record)()
           .map(async (record: Record) => {
-            const exercises: Exercise[] = await factory(Exercise)().createMany(2);
-            record.exercises = exercises;
+            const exercise: Exercise = await factory(Exercise)().create();
+            record.exercise = exercise;
             return record;
           })
           .createMany(2);

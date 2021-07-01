@@ -35,6 +35,7 @@ export const getPost = async (req: Request, res: Response, next: NextFunction): 
       .createQueryBuilder('post')
       .where('post.id = :id', { id: req.params.id })
       .getOne();
+
     if (!post) {
       res.status(404).send('없음');
       return;

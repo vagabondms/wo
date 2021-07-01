@@ -2,11 +2,9 @@ import {
   BaseEntity,
   Entity,
   Column,
-  JoinTable,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   ManyToOne,
-  ManyToMany,
 } from 'typeorm';
 import Exercise from './Exercise.entity';
 import User from './User.entity';
@@ -35,11 +33,8 @@ export default class Record extends BaseEntity {
   @ManyToOne(() => Post, post => post.records)
   post!: Post;
 
-  @ManyToMany(() => Exercise, exercise => exercise.records)
-  @JoinTable({
-    name: 'exercise_record',
-  })
-  exercises!: Exercise[];
+  @ManyToOne(() => Exercise, exercise => exercise.records)
+  exercise!: Exercise;
 
   constructor(weight: number, reps: number) {
     super();
