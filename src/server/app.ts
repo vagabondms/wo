@@ -4,7 +4,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import { createConnection } from 'typeorm';
 
-import router from './routes/';
+import router from './routes';
 
 const app = express();
 
@@ -19,7 +19,13 @@ createConnection()
 app.set('port', 4000);
 
 app.use(morgan('dev'));
+
+// const corsOptions: cors.CorsOptions = {
+//     origin: '*'
+// }
+
 app.use(cors());
+
 app.use(express.json());
 
 // ! routes
