@@ -13,6 +13,8 @@ export const getPosts = async (req: Request, res: Response, next: NextFunction):
       .offset(lastId) // * offset : 시작 id , limit : 시작 id 이후 몇개를 사용할지.
       .limit(10)
       .leftJoinAndSelect('post.records', 'record')
+      .leftJoinAndSelect('record.exercise', 'exercise')
+      .select(['post', 'record', 'exercise.id', 'exercise.name', 'exercise.img'])
       .getMany();
 
     if (!posts) {
