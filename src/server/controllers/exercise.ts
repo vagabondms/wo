@@ -35,6 +35,6 @@ export const getExercise = async (
   } catch (err) {
     console.error(err);
     next(err);
+    return;
   }
-  return;
 };
