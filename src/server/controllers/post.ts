@@ -6,7 +6,7 @@ import PostImage from '../entity/PostImage.entity';
 import Post from '../entity/Post.entity';
 import Record from '../entity/Record.entity';
 
-import * as PostTypes from 'types/post';
+import * as Type from 'types/post';
 
 // TODO: 중요!!
 // TODO: 리펙토링 하기 전에 typeORM에서 제공하는 캐싱기능을 한번 살펴봐야한다.
@@ -15,7 +15,7 @@ import * as PostTypes from 'types/post';
 // * 게시글 전체 보기
 export const getPosts = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const lastId: PostTypes.Id = req.body.lastId;
+    const lastId: Type.Id = req.body.lastId;
 
     const posts: Post[] | undefined = await getRepository(Post)
       .createQueryBuilder('post')
@@ -45,7 +45,7 @@ export const getPosts = async (req: Request, res: Response, next: NextFunction):
 // * 게시글 한개 보기
 export const getPost = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const postId: PostTypes.Id = parseInt(req.params.postId);
+    const postId: Type.Id = parseInt(req.params.postId);
 
     const post: Post | undefined = await getRepository(Post)
       .createQueryBuilder('post')
@@ -77,7 +77,7 @@ export const createPost = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const { recordIds, userId, postImagesIds, content }: PostTypes.NewPostInfo = req.body;
+    const { recordIds, userId, postImagesIds, content }: Type.NewPostInfo = req.body;
 
     //* recordIds에 따른 records 생성
 
@@ -96,24 +96,17 @@ export const createPost = async (
       .where('postImage.id In (:...postImagesIds)', { postImagesIds })
       .getMany();
 
+    if (!writer) {
+      res.status(403).send('작성자가 없습니다.');
+      return;
+    }
     //TODO: 다른 아이들과 이어 붙여야 함.
-    const {
-      raw: { insertId },
-    } = await getRepository(Post)
-      .createQueryBuilder()
-      .insert()
-      .values({ content, postImages, records, writer })
-      .execute();
 
-    const newPost: Post | undefined = await getRepository(Post)
-      .createQueryBuilder('post')
-      .where('post.id = :insertId', { insertId })
-      .leftJoinAndSelect('post.postImages', 'postImage')
-      .leftJoinAndSelect('post.writer', 'writer')
-      .leftJoinAndSelect('post.likers', 'liker')
-      .leftJoinAndSelect('post.records', 'record')
-      .addSelect('post.content')
-      .getOne();
+    const newPost = new Post(content, writer);
+    newPost.records = records;
+    newPost.postImages = postImages;
+
+    await getConnection().manager.save(newPost);
 
     res.status(200).send(newPost);
     return;
@@ -132,7 +125,7 @@ export const deletePost = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const postId: PostTypes.Id = parseInt(req.params.postId);
+    const postId: Type.Id = parseInt(req.params.postId);
 
     const { affected } = await getRepository(Post)
       .createQueryBuilder()
@@ -158,7 +151,8 @@ export const deletePost = async (
 // * 좋아요
 export const likePost = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const { userId, postId }: PostTypes.LikeUnlikePost = req.body;
+    //TODO: 세션에서 userId 꺼내쓰는 것으로 대체해야함
+    const { userId, postId }: Type.LikeUnlikePost = req.body;
 
     //* userId와 postId를 이용해서 관계 설정
     await getConnection().createQueryBuilder().relation(User, 'likes').of(userId).add(postId);
@@ -179,7 +173,8 @@ export const unlikePost = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const { userId, postId }: PostTypes.LikeUnlikePost = req.body;
+    //TODO: 세션에서 userId 꺼내쓰는 것으로 대체해야함
+    const { userId, postId }: Type.LikeUnlikePost = req.body;
 
     // ! Like과는 다르게 반복 가능한 상태다. 이게 문제가 될지는 나중에 생각해보자.
     await getConnection().createQueryBuilder().relation(User, 'likes').of(userId).remove(postId);

@@ -1,13 +1,21 @@
 export type Id = number;
 
+export type Ids = Id[];
+
 export interface NewPostInfo {
-  recordIds: Id[];
+  recordIds: Ids;
   userId: Id;
-  postImagesIds: Id[];
+  postImagesIds: Ids;
   content: string;
 }
 
 export interface LikeUnlikePost {
-  userId: number;
-  postId: number;
+  userId: Id;
+  postId: Id;
+}
+
+export interface createProgram {
+  name: string;
+  isShared: boolean;
+  exerciseIds: Ids;
 }

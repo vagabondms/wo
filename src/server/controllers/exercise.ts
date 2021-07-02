@@ -3,6 +3,7 @@ import { getRepository } from 'typeorm';
 
 import Exercise from '../entity/Exercise.entity';
 
+import * as Type from '../../common/postTypes';
 // * 운동 보기
 export const getExercises = async (req: Request, res: Response): Promise<void> => {
   const exercises: Exercise[] = await getRepository(Exercise)
@@ -20,9 +21,11 @@ export const getExercise = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
+    const exerciseId: Type.Id = parseInt(req.params.exerciseId);
+
     const exercise: Exercise | undefined = await getRepository(Exercise)
       .createQueryBuilder('exercise')
-      .where('exercise.id = :id', { id: req.params.id })
+      .where('exercise.id = :exerciseId', { exerciseId })
       .getOne();
 
     if (!exercise) {
