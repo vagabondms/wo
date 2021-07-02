@@ -21,7 +21,7 @@ export const getExercise = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const exerciseId: Type.Id = req.params.exerciseId;
+    const exerciseId = req.params.exerciseId as Type.Id;
 
     const exercise: Exercise | undefined = await getRepository(Exercise)
       .createQueryBuilder('exercise')

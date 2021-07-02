@@ -120,6 +120,15 @@ export const deleteProgram = async (
   }
 };
 
+/* 
+  프로그램 공유에 대해 고민해봐야할 것.
+  1. owner만 공유/공유 해제를 할 수 있는데, 이때 만약 누군가 program을 가져가면 그때는 어떻게 작동시키는지?
+  => 두가지 경우가 있을 것 같은데, 
+        1) owner 바꾸기, 
+        2) 공유 자체를 owner 한테 가서만 할 수 있게함. 따라서 가져간 사용자들은 공유/비공유에 영향을 끼칠 수 없게 제한.
+    현재는 후자가 좋아 보이는데 생각을 더 해봐야 할 듯.
+ */
+
 // * 프로그램 공유 설정
 export const shareProgram = async (
   req: Request,
@@ -194,13 +203,18 @@ export const unshareProgram = async (
   }
 };
 
-// * 프로그램 가져오기
+// * 프로그램 스크랩하기
 export const scrapProgram = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
   try {
+    const userId: Type.Id = 32;
+    const programId: Type.Id = req.params.programId;
+
+    await getConnection().createQueryBuilder().relation(Program, 'users').of(programId).add(userId);
+    res.status(200).send(programId);
     return;
   } catch (err) {
     console.error(err);

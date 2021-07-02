@@ -102,7 +102,7 @@ export const createPost = async (
     }
     //TODO: 다른 아이들과 이어 붙여야 함.
 
-    const newPost = new Post(content);
+    const newPost: Post = new Post(content);
     newPost.writer = writer;
     newPost.records = records;
     newPost.postImages = postImages;

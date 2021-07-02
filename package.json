@@ -7,7 +7,6 @@
   "license": "MIT",
   "scripts": {
     "dev": "tsc -w",
-    
     "server": "tsc && nodemon --watch dist/server dist/server/server.js",
     "seed:config": "node ./node_modules/typeorm-seeding/dist/cli.js config",
     "seed:run": "node ./node_modules/typeorm-seeding/dist/cli.js seed"
