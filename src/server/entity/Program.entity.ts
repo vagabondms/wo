@@ -25,7 +25,7 @@ export default class Program extends BaseEntity {
   /* 
     associations 
   */
-  @ManyToOne(() => User, user => user.programs)
+  @ManyToOne(() => User, user => user.ownPrograms)
   @JoinColumn()
   owner!: User;
 

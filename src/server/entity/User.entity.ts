@@ -35,6 +35,12 @@ export default class User extends BaseEntity {
   posts!: Post[];
 
   @OneToMany(() => Program, program => program.owner)
+  ownPrograms!: Program[];
+
+  @ManyToMany(() => Program)
+  @JoinTable({
+    name: 'program_user',
+  })
   programs!: Program[];
 
   @ManyToMany(() => Post)

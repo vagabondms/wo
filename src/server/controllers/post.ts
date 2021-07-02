@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
 import { getRepository, getConnection } from 'typeorm';
 
+import User from '../entity/User.entity';
+import PostImage from '../entity/PostImage.entity';
 import Post from '../entity/Post.entity';
 import Record from '../entity/Record.entity';
 
 import * as PostTypes from 'types/post';
-import User from '../entity/User.entity';
-import PostImage from '../entity/PostImage.entity';
 
 // TODO: 중요!!
 // TODO: 리펙토링 하기 전에 typeORM에서 제공하는 캐싱기능을 한번 살펴봐야한다.
@@ -181,6 +181,7 @@ export const unlikePost = async (
   try {
     const { userId, postId }: PostTypes.LikeUnlikePost = req.body;
 
+    // ! Like과는 다르게 반복 가능한 상태다. 이게 문제가 될지는 나중에 생각해보자.
     await getConnection().createQueryBuilder().relation(User, 'likes').of(userId).remove(postId);
 
     res.status(200).send({ userId, postId });
