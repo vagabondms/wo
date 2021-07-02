@@ -19,3 +19,8 @@ export interface createProgram {
   isShared: boolean;
   exerciseIds: Ids;
 }
+
+export interface scrapProgram {
+  name: string;
+  programId: Id;
+}
