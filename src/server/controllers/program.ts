@@ -84,7 +84,7 @@ export const deleteProgram = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const programId: Type.Id = parseInt(req.params.programId);
+    const programId: Type.Id = req.params.programId;
     const userId: Type.Id = 32; //TODO: session 값으로 대체 예정
 
     // * 1. 연결을 끊는 부분.
@@ -102,7 +102,7 @@ export const deleteProgram = async (
         .loadMany()
     ).length;
 
-    //* 2. 연결된 것이 더 이상 없으면 프로그램을 DB에서 삭제시킴
+    //* 2. 연결된 것이 더 이상 없으면 프로그램을 DB에서 삭제함
     if (counts === 0) {
       await getRepository(Program)
         .createQueryBuilder()
@@ -127,6 +127,28 @@ export const shareProgram = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
+    const programId: Type.Id = req.params.programId;
+    const userId: Type.Id = 27;
+
+    const {
+      raw: { changedRows },
+    } = await getRepository(Program)
+      .createQueryBuilder()
+      .update()
+      .set({
+        isShared: true,
+      })
+      .where('id=:programId', { programId: 1 })
+      .andWhere('ownerId = :userId', { userId })
+      .execute();
+
+    //* 변경된 것이 없으면 잘못된 요청임.
+    if (changedRows === 0) {
+      res.status(403).json('잘못된 요청입니다.');
+      return;
+    }
+
+    res.status(200).send(programId);
     return;
   } catch (err) {
     console.error(err);
@@ -142,6 +164,28 @@ export const unshareProgram = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
+    const programId: Type.Id = req.params.programId;
+    const userId: Type.Id = 27;
+
+    const {
+      raw: { changedRows },
+    } = await getRepository(Program)
+      .createQueryBuilder()
+      .update()
+      .set({
+        isShared: false,
+      })
+      .where('id=:programId', { programId: 1 })
+      .andWhere('ownerId = :userId', { userId })
+      .execute();
+
+    //* 변경된 것이 없으면 잘못된 요청임.
+    if (changedRows === 0) {
+      res.status(403).json('잘못된 요청입니다.');
+      return;
+    }
+
+    res.status(200).send(programId);
     return;
   } catch (err) {
     console.error(err);
@@ -151,7 +195,21 @@ export const unshareProgram = async (
 };
 
 // * 프로그램 가져오기
-export const grabProgram = async (
+export const scrapProgram = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  try {
+    return;
+  } catch (err) {
+    console.error(err);
+    next(err);
+    return;
+  }
+};
+
+export const changeNameProgram = async (
   req: Request,
   res: Response,
   next: NextFunction,

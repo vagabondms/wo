@@ -45,7 +45,7 @@ export const getPosts = async (req: Request, res: Response, next: NextFunction):
 // * 게시글 한개 보기
 export const getPost = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const postId: Type.Id = parseInt(req.params.postId);
+    const postId: Type.Id = req.params.postId;
 
     const post: Post | undefined = await getRepository(Post)
       .createQueryBuilder('post')
@@ -126,7 +126,7 @@ export const deletePost = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const postId: Type.Id = parseInt(req.params.postId);
+    const postId: Type.Id = req.params.postId;
     const userId: Type.Id = 15;
 
     const { affected } = await getConnection()
