@@ -14,7 +14,7 @@ const router = express.Router();
 router.post('/', getPosts);
 router.get('/:postId', getPost);
 router.post('/create', createPost);
-router.delete('/delete/:postId', deletePost);
+router.delete('/:postId', deletePost);
 
 //TODO: passport나 session을 이용하게 되면 아래 두개는 uri param으로 받을 수 있다.
 //TODO: 예를들어 /like/:id

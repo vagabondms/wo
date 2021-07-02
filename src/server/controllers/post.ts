@@ -31,10 +31,10 @@ export const getPosts = async (req: Request, res: Response, next: NextFunction):
 
     if (!posts) {
       //TODO: 메시지 수정 필요
-      res.status(404).send('오류!');
+      res.status(404).json('오류!');
       return;
     }
-    res.status(200).send(posts);
+    res.status(200).json(posts);
     return;
   } catch (err) {
     console.error(err);
@@ -58,10 +58,10 @@ export const getPost = async (req: Request, res: Response, next: NextFunction): 
       .getOne();
 
     if (!post) {
-      res.status(404).send('없음');
+      res.status(404).json('없음');
       return;
     }
-    res.status(200).send(post);
+    res.status(200).json(post);
     return;
   } catch (err) {
     console.error(err);
@@ -97,7 +97,7 @@ export const createPost = async (
       .getMany();
 
     if (!writer) {
-      res.status(403).send('작성자가 없습니다.');
+      res.status(403).json('작성자가 없습니다.');
       return;
     }
     //TODO: 다른 아이들과 이어 붙여야 함.
@@ -109,7 +109,7 @@ export const createPost = async (
 
     await getConnection().manager.save(newPost);
 
-    res.status(200).send(newPost);
+    res.status(200).json(newPost);
     return;
   } catch (err) {
     console.error(err);
@@ -127,20 +127,23 @@ export const deletePost = async (
 ): Promise<void> => {
   try {
     const postId: Type.Id = parseInt(req.params.postId);
+    const userId: Type.Id = 15;
 
-    const { affected } = await getRepository(Post)
+    const { affected } = await getConnection()
       .createQueryBuilder()
       .delete()
       .from(Post)
       .where('id = :postId', { postId })
+      .andWhere('writer = :userId', { userId })
       .execute();
 
     if (affected === 0) {
-      res.status(200).send('아무것도 지워지지 않았습니다.');
+      res.status(200).json('아무것도 지워지지 않았습니다.');
+      return;
     }
 
     //* postId 다시 되돌려주기
-    res.status(200).send(postId);
+    res.status(200).json(postId);
     return;
   } catch (err) {
     console.error(err);
@@ -158,7 +161,7 @@ export const likePost = async (req: Request, res: Response, next: NextFunction):
     //* userId와 postId를 이용해서 관계 설정
     await getConnection().createQueryBuilder().relation(User, 'likes').of(userId).add(postId);
 
-    res.status(200).send({ userId, postId });
+    res.status(200).json({ userId, postId });
     return;
   } catch (err) {
     console.error(err);
@@ -180,7 +183,7 @@ export const unlikePost = async (
     // ! Like과는 다르게 반복 가능한 상태다. 이게 문제가 될지는 나중에 생각해보자.
     await getConnection().createQueryBuilder().relation(User, 'likes').of(userId).remove(postId);
 
-    res.status(200).send({ userId, postId });
+    res.status(200).json({ userId, postId });
     return;
   } catch (err) {
     console.error(err);

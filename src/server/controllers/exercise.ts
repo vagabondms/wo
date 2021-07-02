@@ -10,7 +10,7 @@ export const getExercises = async (req: Request, res: Response): Promise<void> =
     .createQueryBuilder('exercise')
     .select(['exercise.name', 'exercise.id', 'exercise.img'])
     .getMany();
-  res.status(200).send(exercises);
+  res.status(200).json(exercises);
   return;
 };
 
@@ -30,10 +30,10 @@ export const getExercise = async (
 
     if (!exercise) {
       // TODO: 번호는 나중에 한 번에 통일시키자.
-      res.status(204).send('없는 운동');
+      res.status(204).json('없는 운동');
       return;
     }
-    res.status(200).send(exercise);
+    res.status(200).json(exercise);
     return;
   } catch (err) {
     console.error(err);
