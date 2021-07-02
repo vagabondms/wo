@@ -4,14 +4,18 @@ import { getRepository } from 'typeorm';
 import Post from '../entity/Post.entity';
 import Record from '../entity/Record.entity';
 
-import { Id, NewPostInfo } from 'types/post';
+import * as PostTypes from 'types/post';
 import User from '../entity/User.entity';
 import PostImage from '../entity/PostImage.entity';
+
+// TODO: 중요!!
+// TODO: 리펙토링 하기 전에 typeORM에서 제공하는 캐싱기능을 한번 살펴봐야한다.
+// TODO: 현재 접속한 사람을 지속적으로 레포지토리에서 가져오기 때문이다.
 
 // * 게시글 전체 보기
 export const getPosts = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const lastId: Id = req.body.lastId;
+    const lastId: PostTypes.Id = req.body.lastId;
 
     const posts: Post[] | undefined = await getRepository(Post)
       .createQueryBuilder('post')
@@ -71,7 +75,7 @@ export const createPost = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const { recordIds, userId, postImagesIds, content }: NewPostInfo = req.body;
+    const { recordIds, userId, postImagesIds, content }: PostTypes.NewPostInfo = req.body;
 
     //* recordIds에 따른 records 생성
 
@@ -99,7 +103,7 @@ export const createPost = async (
       .values({ content, postImages: postImages, records, writer: user })
       .execute();
 
-    const newPost = await getRepository(Post)
+    const newPost: Post | undefined = await getRepository(Post)
       .createQueryBuilder('post')
       .where('post.id = :id', { id: insertId })
       .leftJoinAndSelect('post.postImages', 'postImage')
@@ -134,8 +138,17 @@ export const deletePost = async (
 };
 
 // * 좋아요
-export const like = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const likePost = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
+    const { userId, postId }: PostTypes.LikePost = req.body;
+
+    const user = await getRepository(User)
+      .createQueryBuilder()
+      .relation(User, 'likes')
+      .of(userId)
+      .add(postId);
+
+    res.status(200).send(user);
     return;
   } catch (err) {
     console.error(err);
@@ -145,7 +158,11 @@ export const like = async (req: Request, res: Response, next: NextFunction): Pro
 };
 
 // * 좋아요 취소
-export const unlike = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const unlikePost = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     return;
   } catch (err) {

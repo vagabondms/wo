@@ -6,3 +6,8 @@ export interface NewPostInfo {
   postImagesIds: number[];
   content: string;
 }
+
+export interface LikePost {
+  userId: number;
+  postId: number;
+}
