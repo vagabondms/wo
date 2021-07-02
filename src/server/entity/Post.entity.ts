@@ -34,7 +34,7 @@ export default class Post extends BaseEntity {
   records!: Record[];
 
   @ManyToOne(() => User, user => user.posts)
-  writer: User;
+  writer!: User;
 
   @ManyToMany(() => User)
   @JoinTable({
@@ -42,9 +42,8 @@ export default class Post extends BaseEntity {
   })
   likers!: User[];
 
-  constructor(content: string, writer: User) {
+  constructor(content: string) {
     super();
     this.content = content;
-    this.writer = writer;
   }
 }

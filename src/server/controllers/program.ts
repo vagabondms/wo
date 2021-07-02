@@ -49,12 +49,15 @@ export const createProgram = async (
 
     const owner: User | undefined = await getRepository(User).findOne(userId);
 
-    console.log(exercises);
-    const newProgram = await getRepository(Program)
-      .createQueryBuilder()
-      .insert()
-      .values({ exercises, owner, isShared, name })
-      .execute();
+    if (!owner) {
+      res.status(403).send('작성자가 없습니다.');
+      return;
+    }
+    const newProgram = new Program(name, false || isShared);
+    newProgram.exercises = exercises;
+    newProgram.owner = owner;
+
+    await getConnection().manager.save(newProgram);
 
     console.log(newProgram);
     res.send('hi');
