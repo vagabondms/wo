@@ -1,13 +1,13 @@
 export type Id = number;
 
 export interface NewPostInfo {
-  recordIds: number[];
-  userId: number;
-  postImagesIds: number[];
+  recordIds: Id[];
+  userId: Id;
+  postImagesIds: Id[];
   content: string;
 }
 
-export interface LikePost {
+export interface LikeUnlikePost {
   userId: number;
   postId: number;
 }

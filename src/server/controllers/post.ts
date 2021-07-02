@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { getRepository } from 'typeorm';
+import { getRepository, getConnection } from 'typeorm';
 
 import Post from '../entity/Post.entity';
 import Record from '../entity/Record.entity';
@@ -45,9 +45,11 @@ export const getPosts = async (req: Request, res: Response, next: NextFunction):
 // * 게시글 한개 보기
 export const getPost = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
+    const postId: PostTypes.Id = parseInt(req.params.postId);
+
     const post: Post | undefined = await getRepository(Post)
       .createQueryBuilder('post')
-      .where('post.id = :id', { id: req.params.id })
+      .where('post.id = :postId', { postId })
       .leftJoinAndSelect('post.postImages', 'postImage')
       .leftJoinAndSelect('post.writer', 'writer')
       .leftJoinAndSelect('post.likers', 'liker')
@@ -81,17 +83,17 @@ export const createPost = async (
 
     const records: Record[] | undefined = await getRepository(Record)
       .createQueryBuilder('record')
-      .where('record.id IN (:...ids)', { ids: recordIds })
+      .where('record.id IN (:...recordIds)', { recordIds })
       .getMany();
 
-    const user: User | undefined = await getRepository(User)
+    const writer: User | undefined = await getRepository(User)
       .createQueryBuilder('user')
-      .where('user.id = :id', { id: userId })
+      .where('user.id = :userId', { userId })
       .getOne();
 
     const postImages: PostImage[] | undefined = await getRepository(PostImage)
       .createQueryBuilder('postImage')
-      .where('postImage.id In (:...ids)', { ids: postImagesIds })
+      .where('postImage.id In (:...postImagesIds)', { postImagesIds })
       .getMany();
 
     //TODO: 다른 아이들과 이어 붙여야 함.
@@ -100,12 +102,12 @@ export const createPost = async (
     } = await getRepository(Post)
       .createQueryBuilder()
       .insert()
-      .values({ content, postImages: postImages, records, writer: user })
+      .values({ content, postImages, records, writer })
       .execute();
 
     const newPost: Post | undefined = await getRepository(Post)
       .createQueryBuilder('post')
-      .where('post.id = :id', { id: insertId })
+      .where('post.id = :insertId', { insertId })
       .leftJoinAndSelect('post.postImages', 'postImage')
       .leftJoinAndSelect('post.writer', 'writer')
       .leftJoinAndSelect('post.likers', 'liker')
@@ -123,12 +125,28 @@ export const createPost = async (
 };
 
 // * 게시글 삭제
+// TODO:  추후 로그인 된 상태에서만 삭제할 수 있게 바꿔야한다.
 export const deletePost = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
   try {
+    const postId: PostTypes.Id = parseInt(req.params.postId);
+
+    const { affected } = await getRepository(Post)
+      .createQueryBuilder()
+      .delete()
+      .from(Post)
+      .where('id = :postId', { postId })
+      .execute();
+
+    if (affected === 0) {
+      res.status(200).send('아무것도 지워지지 않았습니다.');
+    }
+
+    //* postId 다시 되돌려주기
+    res.status(200).send(postId);
     return;
   } catch (err) {
     console.error(err);
@@ -140,15 +158,12 @@ export const deletePost = async (
 // * 좋아요
 export const likePost = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const { userId, postId }: PostTypes.LikePost = req.body;
+    const { userId, postId }: PostTypes.LikeUnlikePost = req.body;
 
-    const user = await getRepository(User)
-      .createQueryBuilder()
-      .relation(User, 'likes')
-      .of(userId)
-      .add(postId);
+    //* userId와 postId를 이용해서 관계 설정
+    await getConnection().createQueryBuilder().relation(User, 'likes').of(userId).add(postId);
 
-    res.status(200).send(user);
+    res.status(200).send({ userId, postId });
     return;
   } catch (err) {
     console.error(err);
@@ -164,6 +179,11 @@ export const unlikePost = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
+    const { userId, postId }: PostTypes.LikeUnlikePost = req.body;
+
+    await getConnection().createQueryBuilder().relation(User, 'likes').of(userId).remove(postId);
+
+    res.status(200).send({ userId, postId });
     return;
   } catch (err) {
     console.error(err);
