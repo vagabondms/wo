@@ -17,6 +17,8 @@ export const getProgram = async (
   try {
     const userId: Type.Id = 1; //TODO: 추후 session에서 꺼내쓰는 것으로 대체
 
+    //my first commit with this awesome m1 mac
+
     // const user: User[] = await getRepository(User)
     //   .createQueryBuilder('user')
     //   .where('user.id = :userId', { userId })
