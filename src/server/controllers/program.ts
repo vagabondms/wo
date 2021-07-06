@@ -195,7 +195,7 @@ export const unshareProgram = async (
       return;
     }
     if (changedRows === 0) {
-      res.status(400).send('이미 공유되고 있습니다.');
+      res.status(400).send('이미 공유되지 않고 있습니다.');
       return;
     }
     res.status(200).send(programId);
@@ -221,30 +221,30 @@ export const scrapProgram = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    // const userId: Type.Id = 32; //TODO: session 값으로 교체
-    // const { name, programId }: Type.scrapProgram = req.body;
+    const userId: Type.Id = 1; //TODO: session 값으로 교체
+    const programId: Type.Id = req.params.programId;
+    const { name }: { name: string } = req.body;
 
-    // const owner: User | undefined = await getRepository(User).findOne(userId);
+    //program이 owner한테 존재하면 만들면 안된다.
+    const isProgramAlreadyAssigned: Program_User | undefined = await getRepository(Program_User)
+      .createQueryBuilder()
+      .where('userId = :userId', { userId })
+      .andWhere('programId = :programId', { programId })
+      .getOne();
 
-    // //* exercise 가져오기
-    // const exercises: Exercise[] = await getConnection()
-    //   .createQueryBuilder()
-    //   .relation(Program, 'exercises')
-    //   .of(programId)
-    //   .loadMany();
+    if (isProgramAlreadyAssigned) {
+      res.status(400).send('이미 스크랩한 프로그램입니다.');
+    }
 
-    // if (!owner) {
-    //   res.status(400).send('유저가 존재하지 않습니다.');
-    //   return;
-    // }
+    const newRelation = new Program_User();
+    newRelation.name = name;
+    newRelation.program = parseInt(programId);
+    newRelation.user = userId;
 
-    // //* 새로운 프로그램을 만들고 exercise 그대로 옮겨오기
-    // const scrappedProgram: Program = new Program(name, false);
-    // scrappedProgram.exercises = exercises;
-    // scrappedProgram.owner = owner;
-    // await getRepository(Program).save(scrappedProgram);
+    await getConnection().manager.save(newRelation);
 
-    // res.status(200).json(programId);
+    res.status(200).json(programId);
+
     return;
   } catch (err) {
     console.error(err);
@@ -259,7 +259,14 @@ export const changeNameProgram = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    // const programId :
+    const userId: Type.Id = 1; //TODO: session 값으로 교체
+    const programId: Type.Id = req.params.programId;
+    const { name }: { name: string } = req.body;
+    const isProgramAlreadyAssigned: Program_User | undefined = await getRepository(Program_User)
+      .createQueryBuilder()
+      .where('userId = :userId', { userId })
+      .andWhere('programId = :programId', { programId })
+      .getOne();
     return;
   } catch (err) {
     console.error(err);
