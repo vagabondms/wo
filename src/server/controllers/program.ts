@@ -243,7 +243,9 @@ export const scrapProgram = async (
 
     await getConnection().manager.save(newRelation);
 
-    res.status(200).json(programId);
+    // 새로 만들어진 프로그램을 찾아서 보내줘야 하나?
+
+    res.status(200).json({ programId, name });
 
     return;
   } catch (err) {
@@ -262,11 +264,21 @@ export const changeNameProgram = async (
     const userId: Type.Id = 1; //TODO: session 값으로 교체
     const programId: Type.Id = req.params.programId;
     const { name }: { name: string } = req.body;
-    const isProgramAlreadyAssigned: Program_User | undefined = await getRepository(Program_User)
+
+    const { affected } = await getRepository(Program_User)
       .createQueryBuilder()
+      .update()
+      .set({ name })
       .where('userId = :userId', { userId })
       .andWhere('programId = :programId', { programId })
-      .getOne();
+      .execute();
+
+    if (affected === 0) {
+      res.status(400).send('스크랩한 프로그램이 아닙니다.');
+      return;
+    }
+
+    res.status(400).json({ programId, name });
     return;
   } catch (err) {
     console.error(err);
