@@ -7,11 +7,11 @@ export default class Program_User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @ManyToOne(() => User, user => user.spec)
+  @ManyToOne(() => User, user => user.scrapedPrograms)
   @JoinColumn()
   user!: number;
 
-  @ManyToOne(() => Program, program => program.spec)
+  @ManyToOne(() => Program, program => program.programDetails)
   @JoinColumn()
   program!: number;
 

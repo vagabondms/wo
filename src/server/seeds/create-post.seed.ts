@@ -35,11 +35,12 @@ export default class CreatePost implements Seeder {
             return record;
           })
           .createMany(2);
-        console.log(records);
+        
         post.postImages = postImages;
         post.writer = writer;
         post.likers = users;
         post.records = records;
+        
         return post;
       })
       .createMany(4);

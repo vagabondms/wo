@@ -1,7 +1,6 @@
 import {
   BaseEntity,
   Entity,
-  Column,
   PrimaryGeneratedColumn,
   ManyToOne,
   ManyToMany,
@@ -9,6 +8,7 @@ import {
   JoinTable,
   OneToMany,
 } from 'typeorm';
+
 import Exercise from './Exercise.entity';
 import User from './User.entity';
 import Program_User from './Program_User.entity';
@@ -27,12 +27,13 @@ export default class Program extends BaseEntity {
   /* 
     associations 
   */
+
   @ManyToOne(() => User, user => user.ownPrograms)
   @JoinColumn()
   owner!: User;
 
   @OneToMany(() => Program_User, program_user => program_user.program)
-  spec!: Program_User;
+  programDetails!: Program_User;
 
   @ManyToMany(() => Exercise)
   @JoinTable({

@@ -39,7 +39,7 @@ export default class User extends BaseEntity {
   ownPrograms!: Program[];
 
   @OneToMany(() => Program_User, program_user => program_user.program)
-  spec!: Program_User;
+  scrapedPrograms!: Program_User;
 
   @ManyToMany(() => Post)
   @JoinTable({

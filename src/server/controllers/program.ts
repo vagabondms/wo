@@ -17,26 +17,18 @@ export const getProgram = async (
   try {
     const userId: Type.Id = 1; //TODO: 추후 session에서 꺼내쓰는 것으로 대체
 
-    //my first commit with this awesome m1 mac
+    const user: User | undefined = await getRepository(User)
+      .createQueryBuilder('user')
+      .where('user.id = :userId', { userId })
+      .innerJoinAndSelect('user.scrapedPrograms', 'programRelation')
+      .innerJoinAndSelect('programRelation.program', 'program')
+      .getOne();
 
-    // const user: User[] = await getRepository(User)
-    //   .createQueryBuilder('user')
-    //   .where('user.id = :userId', { userId })
-    //   .innerJoinAndSelect('user.spec', 'spec')
-    //   .innerJoinAndSelect('spec.program', 'program')
-    //   .innerJoinAndSelect('program.exercises', 'exercise')
-    //   .getMany();
-
-    const programs: User[] = await getConnection()
-      .createQueryBuilder()
-      .relation(Program, 'spec')
-      .of(1)
-      .loadMany();
-
-    //*promiseAll쓰기
-
-    console.log(programs);
-    res.status(200).json('ho');
+    if (!user) {
+      res.status(400).json('존재하지 않는 유저입니다.');
+      return;
+    }
+    res.status(200).json();
     return;
   } catch (err) {
     console.error(err);
@@ -52,29 +44,40 @@ export const createProgram = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    // const { name, isShared, exerciseIds }: Type.createProgram = req.body;
+    const { name, isShared, exerciseIds }: Type.createProgram = req.body;
+    if (!name || !exerciseIds) {
+      res.status(400).json('빈 곳이 있습니다.');
+      return;
+    }
 
-    // const userId: Type.Id = 31; //TODO: 추후에 session에 있는 값으로 바꿀 예정
+    const userId: Type.Id = 1; //TODO: 추후에 session에 있는 값으로 바꿀 예정
 
-    // const exercises: Exercise[] | undefined = await getRepository(Exercise)
-    //   .createQueryBuilder('exercise')
-    //   .where('exercise.id IN (:...exerciseIds)', { exerciseIds }) //TODO: exerciseId가 잘못 들어왔을 경우를 생각해봐야겠다.
-    //   .getMany();
+    const owner: User | undefined = await getRepository(User).findOne(userId);
 
-    // const owner: User | undefined = await getRepository(User).findOne(userId);
+    const exercises: Exercise[] | undefined = await getRepository(Exercise)
+      .createQueryBuilder('exercise')
+      .where('exercise.id IN (:...exerciseIds)', { exerciseIds }) //TODO: exerciseId가 잘못 들어왔을 경우를 생각해봐야겠다.
+      .getMany();
 
-    // if (!owner) {
-    //   res.status(403).json('작성자가 없습니다.');
-    //   return;
-    // }
-    // const newProgram = new Program();
-    // newProgram.exercises = exercises;
-    // newProgram.owner = owner;
+    if (!owner) {
+      res.status(403).json('작성자가 없습니다.');
+      return;
+    }
+    const newProgram = new Program();
+    newProgram.exercises = exercises;
+    newProgram.owner = owner;
 
-    // await getConnection().manager.save(newProgram);
+    const { id: programId } = await getConnection().manager.save(newProgram);
+    // program_user에 새 row를 만드는 부분.
+    const programDetails = new Program_User();
+    programDetails.program = programId;
+    programDetails.name = name;
+    programDetails.isShared = isShared;
+    programDetails.user = userId;
 
-    // res.status(200).json(newProgram);
-    // return;
+    await getConnection().manager.save(programDetails);
+
+    res.status(200).json(newProgram);
     return;
   } catch (err) {
     console.error(err);
@@ -99,34 +102,27 @@ export const deleteProgram = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    // const programId: Type.Id = req.params.programId;
-    // const userId: Type.Id = 32; //TODO: session 값으로 대체 예정
+    const programId: Type.Id = req.params.programId;
+    const userId: Type.Id = 1; //TODO: session 값으로 대체 예정
 
-    // // * 1. 연결을 끊는 부분.
-    // await getConnection()
-    //   .createQueryBuilder()
-    //   .relation(Program, 'users')
-    //   .of(programId)
-    //   .remove(userId);
+    // 곧바로 삭제를 실시한다. 그런데 삭제를 실시했는데 영향을 받은 row가 없으면
+    // 잘못된 요청이 들어온 것임. 따라서 에러를 뱉는다.
 
-    // const counts = (
-    //   await getRepository(Program)
-    //     .createQueryBuilder()
-    //     .relation(Program, 'users')
-    //     .of(programId)
-    //     .loadMany()
-    // ).length;
+    const { affected } = await getRepository(Program_User)
+      .createQueryBuilder()
+      .delete()
+      .where('userId = :userId', { userId })
+      .andWhere('programId = :programId', { programId })
+      .execute();
 
-    // //* 2. 연결된 것이 더 이상 없으면 프로그램을 DB에서 삭제함
-    // if (counts === 0) {
-    //   await getRepository(Program)
-    //     .createQueryBuilder()
-    //     .delete()
-    //     .where('id = :programId', { programId })
-    //     .execute();
-    // }
+    if (affected === 0) {
+      res.status(400).send('해당 program을 갖고있지 않습니다.');
+    }
 
-    // res.status(200).json(programId);
+    // 3. 연결된 유저가 없을 때 해당 프로그램을 삭제해아할까? 정보로서 가치가 있는지 판단이 필요.
+    // 우선 삭제하지 않는 것으로.
+
+    res.status(400).json(programId);
     return;
   } catch (err) {
     console.error(err);
