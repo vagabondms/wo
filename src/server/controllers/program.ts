@@ -176,28 +176,30 @@ export const unshareProgram = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    // const programId: Type.Id = req.params.programId;
-    // const userId: Type.Id = 27; //TODO: session 값으로 교체
+    const programId: Type.Id = req.params.programId;
+    const userId: Type.Id = 1; //TODO: session 값으로 교체
 
-    // const {
-    //   raw: { changedRows },
-    // } = await getRepository(Program)
-    //   .createQueryBuilder()
-    //   .update()
-    //   .set({
-    //     isShared: false,
-    //   })
-    //   .where('id=:programId', { programId: 1 })
-    //   .andWhere('ownerId = :userId', { userId })
-    //   .execute();
+    const {
+      affected,
+      raw: { changedRows },
+    } = await getConnection()
+      .createQueryBuilder()
+      .update(Program_User)
+      .set({ isShared: false })
+      .where('programId = :programId', { programId })
+      .andWhere('userId = :userId', { userId })
+      .execute();
 
-    // //* 변경된 것이 없으면 잘못된 요청임.
-    // if (changedRows === 0) {
-    //   res.status(403).json('잘못된 요청입니다.');
-    //   return;
-    // }
-
-    // res.status(200).send(programId);
+    if (affected === 0) {
+      res.status(400).send('해당 프로그램을 갖고 있지 않습니다.');
+      return;
+    }
+    if (changedRows === 0) {
+      res.status(400).send('이미 공유되고 있습니다.');
+      return;
+    }
+    res.status(200).send(programId);
+    return;
     return;
   } catch (err) {
     console.error(err);
