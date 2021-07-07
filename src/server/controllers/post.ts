@@ -6,7 +6,7 @@ import PostImage from '../entity/PostImage.entity';
 import Post from '../entity/Post.entity';
 import Record from '../entity/Record.entity';
 
-import * as Type from 'types/post';
+import * as Type from 'src/common/Types';
 
 // TODO: 중요!!
 // TODO: 리펙토링 하기 전에 typeORM에서 제공하는 캐싱기능을 한번 살펴봐야한다.

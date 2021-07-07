@@ -3,7 +3,7 @@ import { getRepository } from 'typeorm';
 
 import Exercise from '../entity/Exercise.entity';
 
-import * as Type from '../../common/postTypes';
+import * as Type from '../../common/Types';
 // * 운동 보기
 export const getExercises = async (req: Request, res: Response): Promise<void> => {
   const exercises: Exercise[] = await getRepository(Exercise)

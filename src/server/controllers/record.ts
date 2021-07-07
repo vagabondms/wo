@@ -75,6 +75,29 @@ export const deleteRecord = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
+    const userId: Type.Id = 1; //TODO: 추후 session에서 꺼내쓰는 것으로 대체
+    const recordId: Type.Id = req.params.recordId;
+
+    const user: User | undefined = await getRepository(User).findOne(userId);
+
+    if (!user) {
+      res.status(400).json('존재하지 않는 유저입니다.');
+      return;
+    }
+
+    const { affected } = await getRepository(Record)
+      .createQueryBuilder()
+      .delete()
+      .where('userId = :userId', { userId })
+      .andWhere('id = :recordId', { recordId })
+      .execute();
+
+    if (affected === 0) {
+      res.status(400).json('보유하고 있지 않은 기록입니다.');
+      return;
+    }
+
+    res.status(200).json(recordId);
     return;
   } catch (err) {
     console.error(err);

@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.get('/:exerciseId', getRecord);
 router.post('/', createRecord);
-router.delete('/', deleteRecord);
+router.delete('/:recordId', deleteRecord);
 
 export default router;
