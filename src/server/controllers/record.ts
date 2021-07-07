@@ -1,8 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import { getRepository } from 'typeorm';
+import { getConnection, getRepository } from 'typeorm';
 
-import * as Type from 'types/post';
+import * as Type from 'src/common/Types';
 import Record from '../entity/Record.entity';
+import User from '../entity/User.entity';
+import Exercise from '../entity/Exercise.entity';
 
 // * record 보기
 export const getRecord = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -33,6 +35,31 @@ export const createRecord = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
+    const userId: Type.Id = 1; //TODO: 추후 session에서 꺼내쓰는 것으로 대체
+    const exerciseId: Type.Id = req.params.exerciseId;
+    const { weight, reps }: Type.newRecord = req.body;
+
+    const user: User | undefined = await getRepository(User).findOne(userId);
+
+    if (!user) {
+      res.status(400).json('존재하지 않는 유저입니다.');
+      return;
+    }
+
+    const exercise: Exercise | undefined = await getRepository(Exercise).findOne(exerciseId);
+
+    if (!exercise) {
+      res.status(40).json('해당 운동은 존재하지 않습니다.');
+      return;
+    }
+
+    const newRecord = new Record(weight, reps);
+    newRecord.user = user;
+    newRecord.exercise = exercise;
+
+    const savedRecord = await getConnection().manager.save(newRecord);
+
+    res.status(200).json(savedRecord);
     return;
   } catch (err) {
     console.error(err);

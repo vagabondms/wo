@@ -24,3 +24,8 @@ export interface scrapProgram {
   name: string;
   programId: Id;
 }
+
+export interface newRecord {
+  weight: number;
+  reps: number;
+}
