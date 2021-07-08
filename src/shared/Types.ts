@@ -11,7 +11,7 @@ export interface NewPostInfo {
 
 export interface LikeUnlikePost {
   userId: Id;
-  postId: Id;
+  postId: boolean;
 }
 
 export interface createProgram {

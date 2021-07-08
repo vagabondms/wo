@@ -1,38 +1,22 @@
 {
-  "name": "server",
+  "name": "wo",
   "version": "1.0.0",
+  "description": "",
   "main": "index.js",
-  "repository": "https://github.com/project-JM/Server.git",
-  "author": "baejongyeon <jongbae7978@gmail.com>, vagabondms <hiseokseok@gmail.com>",
-  "license": "MIT",
   "scripts": {
-    "dev": "tsc -w",
-    "server": "tsc && nodemon --watch dist/server dist/server/server.js",
-    "seed:config": "node ./node_modules/typeorm-seeding/dist/cli.js config",
-    "seed:run": "node ./node_modules/typeorm-seeding/dist/cli.js seed"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vagabondms/wo.git"
+  },
+  "author": "",
+  "license": "ISC",
   "devDependencies": {
-    "@types/cors": "^2.8.10",
-    "@types/express": "^4.17.12",
-    "@types/faker": "^5.5.6",
-    "@types/morgan": "^1.9.2",
-    "@typescript-eslint/eslint-plugin": "^4.28.0",
-    "@typescript-eslint/parser": "^4.28.0",
-    "eslint": "^7.29.0",
+    "eslint": "^7.30.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "morgan": "^1.10.0",
-    "nodemon": "^2.0.7",
-    "prettier": "^2.3.1",
-    "typescript": "^4.3.4"
-  },
-  "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "mysql": "^2.18.1",
-    "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.2.34",
-    "typeorm-seeding": "^1.6.1"
+    "@typescript-eslint/eslint-plugin": "^4.28.0",
+    "@typescript-eslint/parser": "^4.28.0"
   }
 }

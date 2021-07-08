@@ -3,8 +3,8 @@ import { getRepository } from 'typeorm';
 
 import Exercise from '../entity/Exercise.entity';
 
-import * as Type from '../../common/Types';
-// * 운동 보기
+import * as Type from '@shared/Types';
+
 export const getExercises = async (req: Request, res: Response): Promise<void> => {
   const exercises: Exercise[] = await getRepository(Exercise)
     .createQueryBuilder('exercise')

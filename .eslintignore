@@ -1,4 +1,4 @@
-/.eslintrc.js
-/ormconfig.js
-/node_modules
-/dist
+.eslintrc.js
+ormconfig.js
+node_modules
+dist

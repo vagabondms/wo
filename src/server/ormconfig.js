@@ -7,9 +7,9 @@ module.exports = {
   username: 'root',
   password: process.env.PASSWORD,
   database: process.env.DATABASE,
-  entities: ['dist/server/entity/*.js'],
-  seeds: ['dist/server/seeds/**/*.js'], // seed를 위함
-  factories: ['dist/server/factories/**/*.js'], // factory를 위한 디렉토리
+  entities: ['src/entity/*.ts'],
+  seeds: ['src/seeds/**/*.ts'], // seed를 위함
+  factories: ['src/factories/**/*.ts'], // factory를 위한 디렉토리
   logging: false,
   synchronize: true,
   //dropSchema: true, // each time connection being established, DB will be refreshed.

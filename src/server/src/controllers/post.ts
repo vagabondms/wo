@@ -6,7 +6,7 @@ import PostImage from '../entity/PostImage.entity';
 import Post from '../entity/Post.entity';
 import Record from '../entity/Record.entity';
 
-import * as Type from 'src/common/Types';
+import * as Type from '@shared/Types';
 
 // TODO: 중요!!
 // TODO: 리펙토링 하기 전에 typeORM에서 제공하는 캐싱기능을 한번 살펴봐야한다.
@@ -128,6 +128,8 @@ export const deletePost = async (
   try {
     const postId: Type.Id = req.params.postId;
     const userId: Type.Id = 15;
+
+    const hi: Type.Id = 15;
 
     const { affected } = await getConnection()
       .createQueryBuilder()

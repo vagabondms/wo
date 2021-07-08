@@ -4,7 +4,7 @@ import { getConnection, getRepository } from 'typeorm';
 import Program from '../entity/Program.entity';
 import User from '../entity/User.entity';
 
-import * as Type from 'src/common/Types';
+import * as Type from '@shared/Types';
 import Exercise from '../entity/Exercise.entity';
 import Program_User from '../entity/Program_User.entity';
 

@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { getConnection, getRepository } from 'typeorm';
 
-import * as Type from 'src/common/Types';
+import * as Type from '@shared/Types';
 import Record from '../entity/Record.entity';
 import User from '../entity/User.entity';
 import Exercise from '../entity/Exercise.entity';
