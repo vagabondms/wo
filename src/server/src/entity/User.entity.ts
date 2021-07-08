@@ -10,6 +10,7 @@ import {
 import Post from './Post.entity';
 import Program from './Program.entity';
 import Record from './Record.entity';
+import Program_User from './Program_User.entity';
 
 @Entity()
 export default class User extends BaseEntity {
@@ -35,7 +36,10 @@ export default class User extends BaseEntity {
   posts!: Post[];
 
   @OneToMany(() => Program, program => program.owner)
-  programs!: Program[];
+  ownPrograms!: Program[];
+
+  @OneToMany(() => Program_User, program_user => program_user.program)
+  scrapedPrograms!: Program_User;
 
   @ManyToMany(() => Post)
   @JoinTable({
