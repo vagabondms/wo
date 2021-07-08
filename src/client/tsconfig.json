@@ -9,7 +9,6 @@
       "dom.iterable",
       "esnext"
     ],
-    
     "noEmit": true,
     "resolveJsonModule": true,
     "isolatedModules": true
