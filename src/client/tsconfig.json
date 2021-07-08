@@ -1,6 +1,5 @@
 {
   "extends": "../../tsconfig.json",
-
   "compilerOptions": {
     "jsx": "preserve",
     "sourceMap": true,
@@ -11,7 +10,8 @@
     ],
     "noEmit": true,
     "resolveJsonModule": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "allowJs": false
   },
   "include": [
     "next-env.d.ts",
