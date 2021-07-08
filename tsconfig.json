@@ -10,7 +10,7 @@
       "forceConsistentCasingInFileNames": true, /* Disallow inconsistently-cased references to the same file. */
       "baseUrl": ".", // tsconfig 파일이 참조하는 baseURL이다. '.'으로 한다는 것은 모든 상대 경로의 시작을 현재 디렉토리로 한다는 뜻!,
       "paths": {
-        "@shared/*" : ["src/shared/*"]
+        "@shared/*" : ["packages/shared/*"]
       }
     },
     "exclude": [
