@@ -1,10 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import { getConnection, getRepository } from 'typeorm';
 
+import * as Type from '@shared/Types';
+
 import Program from '../entity/Program.entity';
 import User from '../entity/User.entity';
 
-import * as Type from '@shared/Types';
 import Exercise from '../entity/Exercise.entity';
 import Program_User from '../entity/Program_User.entity';
 
@@ -15,7 +16,7 @@ export const getProgram = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const userId: Type.Id = 1; //TODO: 추후 session에서 꺼내쓰는 것으로 대체
+    const userId: Type.Id = 1; // TODO: 추후 session에서 꺼내쓰는 것으로 대체
 
     const user: User | undefined = await getRepository(User)
       .createQueryBuilder('user')
@@ -50,7 +51,7 @@ export const createProgram = async (
       return;
     }
 
-    const userId: Type.Id = 1; //TODO: 추후에 session에 있는 값으로 바꿀 예정
+    const userId: Type.Id = 1; // TODO: 추후에 session에 있는 값으로 바꿀 예정
 
     const owner: User | undefined = await getRepository(User).findOne(userId);
 

@@ -1,17 +1,19 @@
 {
-  "root": true,
-  "env": {
-    "node": true,
-    "commonjs": true,
-    "es2021": true
-  },
-  "extends": ["eslint:recommended", "prettier", "plugin:@typescript-eslint/recommended"],
-
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "project": "./tsconfig.json",
-    "ecmaVersion": 2021,
-    "sourceType": "module"
-  },
-  "plugins": ["@typescript-eslint"]
-}
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "sourceType": "module",
+      "project": "./tsconfig.json"
+    },
+    "plugins": ["@typescript-eslint"],
+    "extends": [
+      "airbnb-typescript",
+      "airbnb/hooks",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended-requiring-type-checking",
+      "eslint:recommended",
+      "plugin:prettier/recommended"
+    ],
+    "rules": {
+      "@typescript-eslint/no-explicit-any": ["error"]
+    }
+  }
