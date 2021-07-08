@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 
-import Exercise from '../entity/Exercise.entity';
-
 import * as Type from '@shared/Types';
 
-export const getExercises = async (req: Request, res: Response): Promise<void> => {
+import Exercise from '../entity/Exercise.entity';
+
+export const getExercises = async (req: Request, res: Response): Promise<any> => {
   const exercises: Exercise[] = await getRepository(Exercise)
     .createQueryBuilder('exercise')
     .select(['exercise.name', 'exercise.id', 'exercise.img'])
