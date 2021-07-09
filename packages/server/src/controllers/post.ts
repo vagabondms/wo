@@ -30,7 +30,7 @@ export const getPosts = async (req: Request, res: Response, next: NextFunction):
       .getMany();
 
     if (!posts) {
-      //TODO: 메시지 수정 필요
+      // TODO: 메시지 수정 필요
       res.status(404).json('오류!');
       return;
     }
