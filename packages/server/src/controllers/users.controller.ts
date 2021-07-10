@@ -7,7 +7,6 @@ export const signUp = (req: Request, res: Response, next: NextFunction): void =>
   } catch (err) {
     console.error(err);
     next(err);
-    return;
   }
 };
 

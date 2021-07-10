@@ -7,10 +7,11 @@ import {
   ManyToMany,
   JoinTable,
 } from 'typeorm';
-import Post from './Post.entity';
-import Program from './Program.entity';
-import Record from './Record.entity';
-import Program_User from './Program_User.entity';
+
+import Post from '@model/Post.entity';
+import Program from '@model/Program.entity';
+import Record from '@model/Record.entity';
+import Program_User from './ProgramUser.entity';
 
 @Entity()
 export default class User extends BaseEntity {

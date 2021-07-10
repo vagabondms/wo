@@ -1,10 +1,10 @@
 import express from 'express';
 
-import exercise from './exercise';
-import post from './post';
-import program from './program';
-import record from './record';
-import user from './user';
+import exercise from './exercise.route';
+import post from './post.route';
+import program from './program.route';
+import record from './record.route';
+import user from './user.route';
 
 const router = express.Router();
 

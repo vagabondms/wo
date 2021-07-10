@@ -14,6 +14,17 @@
       "plugin:prettier/recommended"
     ],
     "rules": {
-      "@typescript-eslint/no-explicit-any": ["error"]
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-misused-promises":[ // express router에서 async-await 함수를 사용하기 위함
+        "error",
+        {
+          "checksVoidReturn": false
+        }
+      ],
+      "@typescript-eslint/no-unsafe-return": "off",
+      "@typescript-eslint/no-unsafe-member-access": "off",
+      "import/no-cycle" : "off",
+      "no-console": "off" // 나중에 한 번에 처리해주기
+
     }
   }

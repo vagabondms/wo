@@ -9,10 +9,11 @@ import {
   OneToMany,
   JoinTable,
 } from 'typeorm';
-import Category from './Category.entity';
 
-import Program from './Program.entity';
-import Record from './Record.entity';
+import Category from '@model/Category.entity';
+
+import Program from '@model/Program.entity';
+import Record from '@model/Record.entity';
 
 @Entity()
 export default class Exercise extends BaseEntity {

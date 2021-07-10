@@ -6,9 +6,9 @@ import {
   CreateDateColumn,
   ManyToOne,
 } from 'typeorm';
-import Exercise from './Exercise.entity';
-import User from './User.entity';
-import Post from './Post.entity';
+import Exercise from '@model/Exercise.entity';
+import User from '@model/User.entity';
+import Post from '@model/Post.entity';
 
 @Entity()
 export default class Record extends BaseEntity {
