@@ -34,7 +34,6 @@ export const getProgram = async (
   } catch (err) {
     console.error(err);
     next(err);
-    return;
   }
 };
 
@@ -57,7 +56,7 @@ export const createProgram = async (
 
     const exercises: Exercise[] | undefined = await getRepository(Exercise)
       .createQueryBuilder('exercise')
-      .where('exercise.id IN (:...exerciseIds)', { exerciseIds }) //TODO: exerciseId가 잘못 들어왔을 경우를 생각해봐야겠다.
+      .where('exercise.id IN (:...exerciseIds)', { exerciseIds }) // TODO: exerciseId가 잘못 들어왔을 경우를 생각해봐야겠다.
       .getMany();
 
     if (!owner) {
@@ -83,7 +82,6 @@ export const createProgram = async (
   } catch (err) {
     console.error(err);
     next(err);
-    return;
   }
 };
 
@@ -104,7 +102,7 @@ export const deleteProgram = async (
 ): Promise<void> => {
   try {
     const programId: Type.Id = req.params.programId;
-    const userId: Type.Id = 1; //TODO: session 값으로 대체 예정
+    const userId: Type.Id = 1; // TODO: session 값으로 대체 예정
 
     // 곧바로 삭제를 실시한다. 그런데 삭제를 실시했는데 영향을 받은 row가 없으면
     // 잘못된 요청이 들어온 것임. 따라서 에러를 뱉는다.
@@ -128,7 +126,6 @@ export const deleteProgram = async (
   } catch (err) {
     console.error(err);
     next(err);
-    return;
   }
 };
 
@@ -166,7 +163,6 @@ export const shareProgram = async (
   } catch (err) {
     console.error(err);
     next(err);
-    return;
   }
 };
 
@@ -178,7 +174,7 @@ export const unshareProgram = async (
 ): Promise<void> => {
   try {
     const programId: Type.Id = req.params.programId;
-    const userId: Type.Id = 1; //TODO: session 값으로 교체
+    const userId: Type.Id = 1; // TODO: session 값으로 교체
 
     const {
       affected,
@@ -201,11 +197,9 @@ export const unshareProgram = async (
     }
     res.status(200).send(programId);
     return;
-    return;
   } catch (err) {
     console.error(err);
     next(err);
-    return;
   }
 };
 
@@ -222,11 +216,11 @@ export const scrapProgram = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const userId: Type.Id = 1; //TODO: session 값으로 교체
+    const userId: Type.Id = 1; // TODO: session 값으로 교체
     const programId: Type.Id = req.params.programId;
     const { name }: { name: string } = req.body;
 
-    //program이 owner한테 존재하면 만들면 안된다.
+    // program이 owner한테 존재하면 만들면 안된다.
     const isProgramAlreadyAssigned: Program_User | undefined = await getRepository(Program_User)
       .createQueryBuilder()
       .where('userId = :userId', { userId })
@@ -252,7 +246,6 @@ export const scrapProgram = async (
   } catch (err) {
     console.error(err);
     next(err);
-    return;
   }
 };
 
@@ -262,7 +255,7 @@ export const changeNameProgram = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const userId: Type.Id = 1; //TODO: session 값으로 교체
+    const userId: Type.Id = 1; // ODO: session 값으로 교체
     const programId: Type.Id = req.params.programId;
     const { name }: { name: string } = req.body;
 
@@ -284,6 +277,5 @@ export const changeNameProgram = async (
   } catch (err) {
     console.error(err);
     next(err);
-    return;
   }
 };

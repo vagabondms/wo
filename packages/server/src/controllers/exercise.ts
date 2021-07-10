@@ -5,13 +5,12 @@ import * as Type from '@shared/Types';
 
 import Exercise from '../entity/Exercise.entity';
 
-export const getExercises = async (req: Request, res: Response): Promise<any> => {
+export const getExercises = async (req: Request, res: Response): Promise<void> => {
   const exercises: Exercise[] = await getRepository(Exercise)
     .createQueryBuilder('exercise')
     .select(['exercise.name', 'exercise.id', 'exercise.img'])
     .getMany();
   res.status(200).json(exercises);
-  return;
 };
 
 // * 개별 운동 보기
@@ -38,6 +37,5 @@ export const getExercise = async (
   } catch (err) {
     console.error(err);
     next(err);
-    return;
   }
 };

@@ -9,7 +9,7 @@ import Exercise from '../entity/Exercise.entity';
 // * record 보기
 export const getRecord = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const userId: Type.Id = 1; //TODO: 추후 session에서 꺼내쓰는 것으로 대체
+    const userId: Type.Id = 1; // TODO: 추후 session에서 꺼내쓰는 것으로 대체
     const exerciseId: Type.Id = req.params.exerciseId;
 
     const records: Record[] = await getRepository(Record)
@@ -24,7 +24,6 @@ export const getRecord = async (req: Request, res: Response, next: NextFunction)
   } catch (err) {
     console.error(err);
     next(err);
-    return;
   }
 };
 
@@ -35,7 +34,7 @@ export const createRecord = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const userId: Type.Id = 1; //TODO: 추후 session에서 꺼내쓰는 것으로 대체
+    const userId: Type.Id = 1; // TODO: 추후 session에서 꺼내쓰는 것으로 대체
     const exerciseId: Type.Id = req.params.exerciseId;
     const { weight, reps }: Type.newRecord = req.body;
 
@@ -64,7 +63,6 @@ export const createRecord = async (
   } catch (err) {
     console.error(err);
     next(err);
-    return;
   }
 };
 
@@ -75,7 +73,7 @@ export const deleteRecord = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const userId: Type.Id = 1; //TODO: 추후 session에서 꺼내쓰는 것으로 대체
+    const userId: Type.Id = 1; // TODO: 추후 session에서 꺼내쓰는 것으로 대체
     const recordId: Type.Id = req.params.recordId;
 
     const user: User | undefined = await getRepository(User).findOne(userId);
@@ -102,6 +100,5 @@ export const deleteRecord = async (
   } catch (err) {
     console.error(err);
     next(err);
-    return;
   }
 };

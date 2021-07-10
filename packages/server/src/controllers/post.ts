@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
 import { getRepository, getConnection } from 'typeorm';
 
+import * as Type from '@shared/Types';
+
 import User from '../entity/User.entity';
 import PostImage from '../entity/PostImage.entity';
 import Post from '../entity/Post.entity';
 import Record from '../entity/Record.entity';
-
-import * as Type from '@shared/Types';
 
 // TODO: 중요!!
 // TODO: 리펙토링 하기 전에 typeORM에서 제공하는 캐싱기능을 한번 살펴봐야한다.
@@ -66,7 +66,6 @@ export const getPost = async (req: Request, res: Response, next: NextFunction): 
   } catch (err) {
     console.error(err);
     next(err);
-    return;
   }
 };
 
@@ -100,7 +99,7 @@ export const createPost = async (
       res.status(403).json('작성자가 없습니다.');
       return;
     }
-    //TODO: 다른 아이들과 이어 붙여야 함.
+    // TODO: 다른 아이들과 이어 붙여야 함.
 
     const newPost: Post = new Post(content);
     newPost.writer = writer;
@@ -114,7 +113,6 @@ export const createPost = async (
   } catch (err) {
     console.error(err);
     next(err);
-    return;
   }
 };
 
@@ -150,14 +148,13 @@ export const deletePost = async (
   } catch (err) {
     console.error(err);
     next(err);
-    return;
   }
 };
 
 // * 좋아요
 export const likePost = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    //TODO: 세션에서 userId 꺼내쓰는 것으로 대체해야함
+    // TODO: 세션에서 userId 꺼내쓰는 것으로 대체해야함
     const { userId, postId }: Type.LikeUnlikePost = req.body;
 
     //* userId와 postId를 이용해서 관계 설정
@@ -168,7 +165,6 @@ export const likePost = async (req: Request, res: Response, next: NextFunction):
   } catch (err) {
     console.error(err);
     next(err);
-    return;
   }
 };
 
@@ -179,7 +175,7 @@ export const unlikePost = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    //TODO: 세션에서 userId 꺼내쓰는 것으로 대체해야함
+    // TODO: 세션에서 userId 꺼내쓰는 것으로 대체해야함
     const { userId, postId }: Type.LikeUnlikePost = req.body;
 
     // ! Like과는 다르게 반복 가능한 상태다. 이게 문제가 될지는 나중에 생각해보자.
@@ -190,6 +186,5 @@ export const unlikePost = async (
   } catch (err) {
     console.error(err);
     next(err);
-    return;
   }
 };
