@@ -8,7 +8,7 @@ import {
   unshareProgram,
   changeNameProgram,
   scrapProgram,
-} from '../controllers/program';
+} from '../controllers/program.controller';
 
 const router = express.Router();
 

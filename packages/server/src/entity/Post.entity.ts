@@ -9,9 +9,10 @@ import {
   JoinTable,
   ManyToOne,
 } from 'typeorm';
-import PostImage from './PostImage.entity';
-import Record from './Record.entity';
-import User from './User.entity';
+
+import PostImage from '@model/PostImage.entity';
+import Record from '@model/Record.entity';
+import User from '@model/User.entity';
 
 @Entity()
 export default class Post extends BaseEntity {

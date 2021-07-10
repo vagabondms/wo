@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { getRepository, getConnection } from 'typeorm';
 
-import * as Type from '@shared/Types';
+import * as Type from '@shared/types/exercise';
 
 import User from '../entity/User.entity';
 import PostImage from '../entity/PostImage.entity';
@@ -15,7 +15,7 @@ import Record from '../entity/Record.entity';
 // * 게시글 전체 보기
 export const getPosts = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const lastId: Type.Id = req.body.lastId;
+    const lastId = Number(req.params.id);
 
     const posts: Post[] | undefined = await getRepository(Post)
       .createQueryBuilder('post')
@@ -45,7 +45,7 @@ export const getPosts = async (req: Request, res: Response, next: NextFunction):
 // * 게시글 한개 보기
 export const getPost = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const postId: Type.Id = req.params.postId;
+    const postId = req.params;
 
     const post: Post | undefined = await getRepository(Post)
       .createQueryBuilder('post')

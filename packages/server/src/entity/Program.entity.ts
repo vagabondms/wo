@@ -9,9 +9,9 @@ import {
   OneToMany,
 } from 'typeorm';
 
-import Exercise from './Exercise.entity';
-import User from './User.entity';
-import Program_User from './Program_User.entity';
+import Exercise from '@model/Exercise.entity';
+import User from '@model/User.entity';
+import Program_User from '@model/ProgramUser.entity';
 
 @Entity()
 export default class Program extends BaseEntity {

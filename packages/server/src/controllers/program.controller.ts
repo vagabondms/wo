@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import { getConnection, getRepository } from 'typeorm';
 
-import * as Type from '@shared/Types';
+import * as Type from '@shared/types/request';
 
 import Program from '../entity/Program.entity';
 import User from '../entity/User.entity';
 
 import Exercise from '../entity/Exercise.entity';
-import Program_User from '../entity/Program_User.entity';
+import Program_User from '../entity/ProgramUser.entity';
 
 // * 프로그램 목록 가져오기
 export const getProgram = async (

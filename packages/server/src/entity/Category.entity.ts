@@ -1,5 +1,5 @@
 import { BaseEntity, Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import Exercise from './Exercise.entity';
+import Exercise from '@model/Exercise.entity';
 
 @Entity()
 export default class Category extends BaseEntity {
