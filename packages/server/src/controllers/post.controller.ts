@@ -1,12 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
 import { getRepository, getConnection } from 'typeorm';
 
-import * as Type from '@shared/types/exercise';
+import User from '@model/User.entity';
+import PostImage from '@model/PostImage.entity';
+import Post from '@model/Post.entity';
+import Record from '@model/Record.entity';
 
-import User from '../entity/User.entity';
-import PostImage from '../entity/PostImage.entity';
-import Post from '../entity/Post.entity';
-import Record from '../entity/Record.entity';
+import * as Req from '@shared/post/request';
+import * as Res from '@shared/post/response';
 
 // TODO: 중요!!
 // TODO: 리펙토링 하기 전에 typeORM에서 제공하는 캐싱기능을 한번 살펴봐야한다.
@@ -34,7 +35,10 @@ export const getPosts = async (req: Request, res: Response, next: NextFunction):
       res.status(404).json('오류!');
       return;
     }
-    res.status(200).json(posts);
+
+    const response: Res.GetPosts = posts;
+
+    res.status(200).json(response);
     return;
   } catch (err) {
     console.error(err);
@@ -61,7 +65,10 @@ export const getPost = async (req: Request, res: Response, next: NextFunction): 
       res.status(404).json('없음');
       return;
     }
-    res.status(200).json(post);
+
+    const response: Res.GetPost = post;
+
+    res.status(200).json(response);
     return;
   } catch (err) {
     console.error(err);
@@ -76,7 +83,7 @@ export const createPost = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const { recordIds, userId, postImagesIds, content }: Type.NewPostInfo = req.body;
+    const { recordIds, userId, postImagesIds, content } = <Req.CreatePost>req.body;
 
     //* recordIds에 따른 records 생성
 
@@ -108,7 +115,9 @@ export const createPost = async (
 
     await getConnection().manager.save(newPost);
 
-    res.status(200).json(newPost);
+    const response: Res.CreatePost = newPost;
+
+    res.status(200).json(response);
     return;
   } catch (err) {
     console.error(err);
@@ -124,10 +133,8 @@ export const deletePost = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const postId: Type.Id = req.params.postId;
-    const userId: Type.Id = 15;
-
-    const hi: Type.Id = 15;
+    const postId = Number(req.params.postId);
+    const userId = 15;
 
     const { affected } = await getConnection()
       .createQueryBuilder()
@@ -143,7 +150,9 @@ export const deletePost = async (
     }
 
     //* postId 다시 되돌려주기
-    res.status(200).json(postId);
+    const response: Res.DeletePost = postId;
+
+    res.status(200).json(response);
     return;
   } catch (err) {
     console.error(err);
@@ -155,12 +164,14 @@ export const deletePost = async (
 export const likePost = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     // TODO: 세션에서 userId 꺼내쓰는 것으로 대체해야함
-    const { userId, postId }: Type.LikeUnlikePost = req.body;
+    const { userId, postId } = <Req.LikePost>req.body;
 
     //* userId와 postId를 이용해서 관계 설정
     await getConnection().createQueryBuilder().relation(User, 'likes').of(userId).add(postId);
 
-    res.status(200).json({ userId, postId });
+    const response: Res.LikePost = { userId, postId };
+
+    res.status(200).json(response);
     return;
   } catch (err) {
     console.error(err);
@@ -176,12 +187,14 @@ export const unlikePost = async (
 ): Promise<void> => {
   try {
     // TODO: 세션에서 userId 꺼내쓰는 것으로 대체해야함
-    const { userId, postId }: Type.LikeUnlikePost = req.body;
+    const { userId, postId } = <Req.UnlikePost>req.body;
 
     // ! Like과는 다르게 반복 가능한 상태다. 이게 문제가 될지는 나중에 생각해보자.
     await getConnection().createQueryBuilder().relation(User, 'likes').of(userId).remove(postId);
 
-    res.status(200).json({ userId, postId });
+    const response: Res.UnlikePost = { userId, postId };
+
+    res.status(200).json(response);
     return;
   } catch (err) {
     console.error(err);

@@ -1,16 +1,18 @@
 import { Request, Response, NextFunction } from 'express';
 import { getConnection, getRepository } from 'typeorm';
 
-import * as Type from '@shared/types/request';
-import Record from '../entity/Record.entity';
-import User from '../entity/User.entity';
-import Exercise from '../entity/Exercise.entity';
+import * as Req from '@shared/record/request';
+import * as Res from '@shared/record/response';
+
+import Record from '@model/Record.entity';
+import User from '@model/User.entity';
+import Exercise from '@model/Exercise.entity';
 
 // * record 보기
 export const getRecord = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const userId: Type.Id = 1; // TODO: 추후 session에서 꺼내쓰는 것으로 대체
-    const exerciseId: Type.Id = req.params.exerciseId;
+    const userId = 1; // TODO: 추후 session에서 꺼내쓰는 것으로 대체
+    const exerciseId = Number(req.params.exerciseId);
 
     const records: Record[] = await getRepository(Record)
       .createQueryBuilder()
@@ -34,9 +36,9 @@ export const createRecord = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const userId: Type.Id = 1; // TODO: 추후 session에서 꺼내쓰는 것으로 대체
-    const exerciseId: Type.Id = req.params.exerciseId;
-    const { weight, reps }: Type.newRecord = req.body;
+    const userId = 1; // TODO: 추후 session에서 꺼내쓰는 것으로 대체
+    const exerciseId = Number(req.params.exerciseId);
+    const { weight, reps } = <Req.CreateRecord>req.body;
 
     const user: User | undefined = await getRepository(User).findOne(userId);
 
@@ -58,7 +60,9 @@ export const createRecord = async (
 
     const savedRecord = await getConnection().manager.save(newRecord);
 
-    res.status(200).json(savedRecord);
+    const response: Res.CreateRecord = savedRecord;
+
+    res.status(200).json(response);
     return;
   } catch (err) {
     console.error(err);
@@ -73,8 +77,8 @@ export const deleteRecord = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const userId: Type.Id = 1; // TODO: 추후 session에서 꺼내쓰는 것으로 대체
-    const recordId: Type.Id = req.params.recordId;
+    const userId = 1; // TODO: 추후 session에서 꺼내쓰는 것으로 대체
+    const recordId = Number(req.params.recordId);
 
     const user: User | undefined = await getRepository(User).findOne(userId);
 
@@ -95,7 +99,8 @@ export const deleteRecord = async (
       return;
     }
 
-    res.status(200).json(recordId);
+    const response: Res.DeleteRecord = recordId;
+    res.status(200).json(response);
     return;
   } catch (err) {
     console.error(err);

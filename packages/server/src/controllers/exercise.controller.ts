@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 
+import { GetExercise, GetExercises } from '@shared/exercise/response';
 import Exercise from '@model/Exercise.entity';
 
 export const getExercises = async (
@@ -14,7 +15,9 @@ export const getExercises = async (
       .select(['exercise.name', 'exercise.id', 'exercise.img'])
       .getMany();
 
-    res.status(200).json(exercises);
+    const response: GetExercises = exercises;
+
+    res.status(200).json(response);
     return;
   } catch (err) {
     console.error(err);
@@ -41,7 +44,10 @@ export const getExercise = async (
       res.status(204).json('없는 운동');
       return;
     }
-    res.status(200).json(exercise);
+
+    const response: GetExercise = exercise;
+
+    res.status(200).json(response);
     return;
   } catch (err) {
     console.error(err);
