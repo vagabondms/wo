@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { getConnection, getRepository } from 'typeorm';
 
-import * as Req from '@shared/record/request';
-import * as Res from '@shared/record/response';
+import type * as Req from '@shared/record/request';
+import type * as Res from '@shared/record/response';
 
 import Record from '@model/Record.entity';
 import User from '@model/User.entity';

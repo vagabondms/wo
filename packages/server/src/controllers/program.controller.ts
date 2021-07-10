@@ -1,9 +1,9 @@
-import { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import { getConnection, getRepository } from 'typeorm';
 
-import * as Req from '@shared/program/request';
-import * as Res from '@shared/program/response';
-import CustomUpdateResult from '@serverInterface';
+import type * as Req from '@shared/program/request';
+import type * as Res from '@shared/program/response';
+import type CustomUpdateResult from '@serverInterface';
 
 import Program from '@model/Program.entity';
 import User from '@model/User.entity';
