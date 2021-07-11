@@ -24,7 +24,7 @@
       "@typescript-eslint/no-unsafe-return": "off",
       "@typescript-eslint/no-unsafe-member-access": "off",
       "import/no-cycle" : "off",
-      "no-console": "off" // 나중에 한 번에 처리해주기
-
+      "no-console": "off", // 나중에 한 번에 처리해주기
+      "no-param-reassign" : "off"
     }
   }
