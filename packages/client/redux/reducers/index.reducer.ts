@@ -1,4 +1,4 @@
-import { combineReducers } from '@reduxjs/toolkit';
+import { combineReducers, AnyAction } from '@reduxjs/toolkit';
 
 import { HYDRATE } from 'next-redux-wrapper';
 import { AppState } from '../store/store';
@@ -8,7 +8,7 @@ const rootReducer = combineReducers({
   exerciseReducer,
 });
 
-export const reducer = (state: AppState, action: { type: any; payload: any }) => {
+export const reducer = (state: AppState, action: AnyAction) => {
   if (action.type === HYDRATE) {
     return {
       ...state,
