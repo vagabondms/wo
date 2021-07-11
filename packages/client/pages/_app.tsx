@@ -4,6 +4,8 @@ import type { AppProps } from 'next/app';
 
 import wrapper from '../redux/store/store';
 
+import '../styles.css';
+
 const App = ({ Component }: AppProps) => {
   return (
     <>

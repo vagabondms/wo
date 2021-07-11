@@ -2,16 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 
 const HeaderDiv = styled.div`
-  height: 100px;
+  grid-area: head;
+  height: 120px;
   background: skyblue;
 `;
 
 const Header = () => {
-  return (
-    <>
-      <HeaderDiv />
-    </>
-  );
+  return <HeaderDiv>Header</HeaderDiv>;
 };
 
 export default Header;
