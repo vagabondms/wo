@@ -10,5 +10,6 @@ const HeaderDiv = styled.div`
 const Header = () => {
   return <HeaderDiv>Header</HeaderDiv>;
 };
+// ㅎㅏ 디자인 어렵
 
 export default Header;
