@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import { getRepository, getConnection } from 'typeorm';
 
 import User from '@model/User.entity';
@@ -6,8 +6,8 @@ import PostImage from '@model/PostImage.entity';
 import Post from '@model/Post.entity';
 import Record from '@model/Record.entity';
 
-import * as Req from '@shared/post/request';
-import * as Res from '@shared/post/response';
+import type * as Req from '@shared/post/request';
+import type * as Res from '@shared/post/response';
 
 // TODO: 중요!!
 // TODO: 리펙토링 하기 전에 typeORM에서 제공하는 캐싱기능을 한번 살펴봐야한다.

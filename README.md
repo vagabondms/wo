@@ -1,12 +1,15 @@
 ```
 wo
-├─ src
+├─ package.json
+├─ packages
 │  ├─ client
-│  │  ├─ src
-│  │  │  └─ ts.ts
-│  │  └─ tsconfig.json
+│  │  ├─ next-env.d.ts
+│  │  ├─ package.json
+│  │  ├─ pages
+│  │  │  └─ index.tsx
+│  │  ├─ tsconfig.json
+│  │  └─ yarn.lock
 │  ├─ server
-│  │  ├─ .gitignore
 │  │  ├─ ormconfig.js
 │  │  ├─ package.json
 │  │  ├─ src
@@ -14,6 +17,8 @@ wo
 │  │  │  ├─ controllers
 │  │  │  ├─ entity
 │  │  │  ├─ factories
+│  │  │  ├─ interfaces
+│  │  │  │  └─ index.ts
 │  │  │  ├─ routes
 │  │  │  ├─ seeds
 │  │  │  ├─ server.ts
@@ -21,7 +26,20 @@ wo
 │  │  ├─ tsconfig.json
 │  │  └─ yarn.lock
 │  └─ shared
-│     └─ Types.ts
+│     └─ types
+│        ├─ exercise
+│        │  └─ response.ts
+│        ├─ post
+│        │  ├─ request.ts
+│        │  └─ response.ts
+│        ├─ program
+│        │  ├─ request.ts
+│        │  └─ response.ts
+│        ├─ record
+│        │  ├─ request.ts
+│        │  └─ response.ts
+│        ├─ request.ts
+│        └─ user
 ├─ tsconfig.json
 └─ yarn.lock
 
