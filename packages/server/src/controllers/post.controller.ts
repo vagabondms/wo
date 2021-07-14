@@ -1,13 +1,13 @@
 import type { NextFunction, Request, Response } from 'express';
 import { getRepository, getConnection } from 'typeorm';
 
-import User from '@model/User.entity';
-import PostImage from '@model/PostImage.entity';
-import Post from '@model/Post.entity';
-import Record from '@model/Record.entity';
-
 import type * as Req from '@shared/post/request';
 import type * as Res from '@shared/post/response';
+
+import User from '../entity/User.entity';
+import PostImage from '../entity/PostImage.entity';
+import Post from '../entity/Post.entity';
+import Record from '../entity/Record.entity';
 
 // TODO: 중요!!
 // TODO: 리펙토링 하기 전에 typeORM에서 제공하는 캐싱기능을 한번 살펴봐야한다.
@@ -108,10 +108,11 @@ export const createPost = async (
     }
     // TODO: 다른 아이들과 이어 붙여야 함.
 
-    const newPost: Post = new Post(content);
+    const newPost: Post = new Post();
     newPost.writer = writer;
     newPost.records = records;
     newPost.postImages = postImages;
+    newPost.content = content;
 
     await getConnection().manager.save(newPost);
 

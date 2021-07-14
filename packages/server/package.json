@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/project-JM/Server.git",
-  "author": "baejongyeon <jongbae7978@gmail.com>, vagabondms <hiseokseok@gmail.com>",
+  "author": "vagabondms <hiseokseok@gmail.com>",
   "license": "MIT",
   "scripts": {
     "dev": "nodemon --exec ts-node src/server.ts",
     "build": "tsc",
     "start": "pm2 어쩌구",
-    "seed:config": "node ./node_modules/typeorm-seeding/dist/cli.js config",
-    "seed:run": "node ./node_modules/typeorm-seeding/dist/cli.js seed"
+    "seed:config": "ts-node ./node_modules/typeorm-seeding/dist/cli.js config",
+    "seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed"
   },
   "devDependencies": {
     "@types/cors": "^2.8.10",
@@ -20,7 +20,6 @@
     "morgan": "^1.10.0",
     "nodemon": "^2.0.7",
     "ts-node": "^10.0.0"
-    
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -30,6 +29,7 @@
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.2.34",
     "typeorm-seeding": "^1.6.1",
-    "typescript": "^4.3.5"
+    "typescript": "^4.3.5",
+    "faker": "^5.5.3"
   }
 }

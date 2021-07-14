@@ -10,9 +10,9 @@ import {
   ManyToOne,
 } from 'typeorm';
 
-import PostImage from '@model/PostImage.entity';
-import Record from '@model/Record.entity';
-import User from '@model/User.entity';
+import PostImage from './PostImage.entity';
+import Record from './Record.entity';
+import User from './User.entity';
 
 @Entity()
 export default class Post extends BaseEntity {
@@ -20,7 +20,7 @@ export default class Post extends BaseEntity {
   id!: number;
 
   @Column({ type: 'varchar', length: 500, select: false })
-  content: string;
+  content!: string;
 
   @CreateDateColumn()
   created_at!: Date;
@@ -42,9 +42,4 @@ export default class Post extends BaseEntity {
     name: 'like',
   })
   likers!: User[];
-
-  constructor(content: string) {
-    super();
-    this.content = content;
-  }
 }

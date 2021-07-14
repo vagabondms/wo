@@ -4,9 +4,9 @@ import { getConnection, getRepository } from 'typeorm';
 import type * as Req from '@shared/record/request';
 import type * as Res from '@shared/record/response';
 
-import Record from '@model/Record.entity';
-import User from '@model/User.entity';
-import Exercise from '@model/Exercise.entity';
+import Record from '../entity/Record.entity';
+import User from '../entity/User.entity';
+import Exercise from '../entity/Exercise.entity';
 
 // * record 보기
 export const getRecord = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -54,9 +54,11 @@ export const createRecord = async (
       return;
     }
 
-    const newRecord = new Record(weight, reps);
+    const newRecord = new Record();
     newRecord.user = user;
     newRecord.exercise = exercise;
+    newRecord.weight = weight;
+    newRecord.reps = reps;
 
     const savedRecord = await getConnection().manager.save(newRecord);
 

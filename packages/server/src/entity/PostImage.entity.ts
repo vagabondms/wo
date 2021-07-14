@@ -1,6 +1,6 @@
 import { BaseEntity, Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
-import Post from '@model/Post.entity';
+import Post from './Post.entity';
 
 @Entity()
 export default class PostImage extends BaseEntity {
@@ -8,16 +8,11 @@ export default class PostImage extends BaseEntity {
   id!: number;
 
   @Column()
-  src: string;
+  src!: string;
 
   /* 
     associations 
   */
   @ManyToOne(() => Post, post => post.postImages)
   post!: Post;
-
-  constructor(s: string) {
-    super();
-    this.src = s;
-  }
 }

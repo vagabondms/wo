@@ -3,41 +3,32 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   ManyToOne,
-  ManyToMany,
   JoinColumn,
-  JoinTable,
   OneToMany,
+  Column,
 } from 'typeorm';
 
-import Exercise from '@model/Exercise.entity';
-import User from '@model/User.entity';
-import Program_User from '@model/ProgramUser.entity';
+import ExerciseProgram from './ExerciseProgram.entity';
+import User from './User.entity';
 
 @Entity()
 export default class Program extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  // @Column()
-  // name: string;
+  @Column()
+  isShared!: boolean;
 
-  // @Column()
-  // isShared: boolean;
-
-  /* 
-    associations 
-  */
+  @Column()
+  name!: string;
 
   @ManyToOne(() => User, user => user.ownPrograms)
   @JoinColumn()
   owner!: User;
 
-  @OneToMany(() => Program_User, program_user => program_user.program)
-  programDetails!: Program_User;
+  @ManyToOne(() => User, user => user.scrapedPrograms)
+  scrapedBy!: User;
 
-  @ManyToMany(() => Exercise)
-  @JoinTable({
-    name: 'exercise_program',
-  })
-  exercises!: Exercise[];
+  @OneToMany(() => ExerciseProgram, exerciseProgram => exerciseProgram.program)
+  exercises!: ExerciseProgram;
 }
