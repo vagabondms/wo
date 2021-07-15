@@ -8,10 +8,9 @@ import {
   JoinTable,
 } from 'typeorm';
 
-import Post from '@model/Post.entity';
-import Program from '@model/Program.entity';
-import Record from '@model/Record.entity';
-import Program_User from './ProgramUser.entity';
+import Post from './Post.entity';
+import Program from './Program.entity';
+import Record from './Record.entity';
 
 @Entity()
 export default class User extends BaseEntity {
@@ -19,13 +18,13 @@ export default class User extends BaseEntity {
   id!: number;
 
   @Column({ select: false })
-  email: string;
+  email!: string;
 
   @Column({ select: false })
-  password: string;
+  password!: string;
 
   @Column({ select: false })
-  nickname: string;
+  nickname!: string;
 
   /* 
     associations 
@@ -39,8 +38,8 @@ export default class User extends BaseEntity {
   @OneToMany(() => Program, program => program.owner)
   ownPrograms!: Program[];
 
-  @OneToMany(() => Program_User, program_user => program_user.program)
-  scrapedPrograms!: Program_User;
+  @OneToMany(() => Program, program => program.scrapedBy)
+  scrapedPrograms!: User;
 
   @ManyToMany(() => Post)
   @JoinTable({
@@ -61,11 +60,4 @@ export default class User extends BaseEntity {
     },
   })
   users!: User[];
-
-  constructor(email: string, password: string, nickname: string) {
-    super();
-    this.email = email;
-    this.password = password;
-    this.nickname = nickname;
-  }
 }

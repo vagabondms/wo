@@ -2,7 +2,8 @@ import type { NextFunction, Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 
 import type { GetExercise, GetExercises } from '@shared/exercise/response';
-import Exercise from '@model/Exercise.entity';
+
+import Exercise from '../entity/Exercise.entity';
 
 export const getExercises = async (
   req: Request,

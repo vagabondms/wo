@@ -17,7 +17,7 @@ router.post('/create', createProgram);
 router.delete('/:programId', deleteProgram);
 router.patch('/share/:programId', shareProgram);
 router.patch('/unshare/:programId', unshareProgram);
-router.put('/scrap/:programId', scrapProgram);
+router.post('/scrap/:programId', scrapProgram);
 router.patch('/:programId', changeNameProgram);
 
 export default router;

@@ -8,9 +8,9 @@ export default class CreateFollow implements Seeder {
       .map(async (user: User) => {
         const users: User[] = await factory(User)()
           // upper User의 user 카테고리를 달았는데, 그 달리는 user의 users에도 user를 단 것
-          .map(async (user: User) => {
-            const users: User[] = await factory(User)().createMany(2);
-            user.users = users;
+          .map(async (secondUser: User) => {
+            const secondUsers: User[] = await factory(User)().createMany(2);
+            secondUser.users = secondUsers;
 
             return user;
           })

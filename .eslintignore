@@ -2,3 +2,4 @@
 ormconfig.js
 node_modules
 dist
+next.config.js

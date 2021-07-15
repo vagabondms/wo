@@ -1,5 +1,6 @@
 import { BaseEntity, Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import Exercise from '@model/Exercise.entity';
+
+import Exercise from './Exercise.entity';
 
 @Entity()
 export default class Category extends BaseEntity {
@@ -7,16 +8,11 @@ export default class Category extends BaseEntity {
   id!: number;
 
   @Column()
-  category: string;
+  category!: string;
 
   /* 
     associations 
   */
   @OneToMany(() => Exercise, exercise => exercise.category)
   exercises!: Exercise[];
-
-  constructor(category: string) {
-    super();
-    this.category = category;
-  }
 }
