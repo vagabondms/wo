@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-// import Profile from '../../Profile/Profile';
-import User from './user.svg';
+
+import User from '@icons/user.svg';
 
 const HeaderDiv = styled.div`
   grid-area: head;
