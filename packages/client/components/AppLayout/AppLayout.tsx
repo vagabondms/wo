@@ -19,6 +19,7 @@ const AppLayout = ({ children }: { children: ReactNode }) => {
     <Container>
       <Header />
       <SideBar />
+
       <div>
         mainArea
         {children}
