@@ -11,6 +11,7 @@ const HeaderDiv = styled.div`
 
 const CustomUser = styled(User)`
   height: 10px;
+  color: blue;
 `;
 
 const Header = () => {
