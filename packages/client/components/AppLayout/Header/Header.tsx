@@ -13,6 +13,7 @@ const CustomUser = styled(User)`
   height: 10px;
   float: right;
   color: blue;
+  border: 1px black;
 `;
 
 const Header = () => {
