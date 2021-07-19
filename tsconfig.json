@@ -13,6 +13,8 @@
         "@shared/*/response" : ["packages/shared/types/*/response"],
         "@shared/*/request" : ["packages/shared/types/*/request"],
         "@serverInterface" : ["packages/server/src/interfaces/index"],
+        "@entity/*" : ["packages/server/src/entity/*"],
+        "@icons/*" : ["packages/client/icons/*"]
       }
     },
     "exclude": [
