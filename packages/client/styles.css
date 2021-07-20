@@ -19,6 +19,7 @@
   font-weight: lighter;
 }
 
+
 /* 
   Noto Sans KR 
 */
@@ -42,4 +43,10 @@ body {
     margin: 0 ;
     font-family: "Montserrat","Noto-Sans";
     letter-spacing: 2px;
+}
+body {
+  padding: 0;
+  margin: 0 ;
+  font-family: "Montserrat","Noto-Sans";
+  letter-spacing: 2px;
 }
