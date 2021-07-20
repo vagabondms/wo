@@ -2,9 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 const SeparatorWrapper = styled.div`
-  height: 20px;
+  height: 10px;
   display: flex;
   justify-content: center;
+  margin-bottom: 20px;
   & > div {
     height: 50%;
     width: 166px;

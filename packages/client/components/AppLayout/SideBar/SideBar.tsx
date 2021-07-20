@@ -13,7 +13,7 @@ const SideBarDiv = styled.div`
 `;
 
 const Logo = styled.div`
-  height: 81px;
+  height: 80px;
   display: flex;
   justify-content: center;
   align-items: center;
