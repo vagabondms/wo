@@ -1,45 +1,37 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import User from '@icons/user.svg';
 import SubHeader from '../SubHeader/SubHeader';
+import PageIndicator from '../PageIndicator/PageIndicator';
+import Profile from '../Profile/Profile';
 
-const HeaderDiv = styled.div`
+const HeaderWrapper = styled.div`
   grid-area: head;
-  height: 144px;
-  background: skyblue;
+  height: 94px;
+  background: #f6f6f9;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-right: 47px;
-  padding-left: 90px;
-  font-weight: bold;
-  font-size: 20px;
-  color: #26207e;
+  flex-direction: column;
 `;
 
-const ProfileWrapper = styled.div`
+const MainHeader = styled.div`
   display: flex;
-  width: 220px;
-  align-items: center;
   justify-content: space-between;
-  font-weight: normal;
-  font-size: 16px;
-  color: #949cff;
+  align-items: center;
+  height: 50%;
+  margin-left: 90px;
+  margin-right: 47px;
 `;
 
 const Header = () => {
   return (
-    <HeaderDiv>
-      공유
-      <ProfileWrapper>
-        안녕하세요. 김민석님!
-        <User />
-      </ProfileWrapper>
+    <HeaderWrapper>
+      <MainHeader>
+        <PageIndicator />
+        <Profile />
+      </MainHeader>
       <SubHeader />
-    </HeaderDiv>
+    </HeaderWrapper>
   );
 };
-// ㅎㅏ 디자인 어렵
 
 export default Header;
