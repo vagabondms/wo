@@ -1,10 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 import LogoSVG from '@icons/Logo.svg';
-// import Part from '@icons/Part.svg';
+import PartSVG from '@icons/Part.svg';
+import WeightSVG from '@icons/Weight.svg';
+import ByExerciseSVG from '@icons/ByExercise.svg';
+import MyProgramSVG from '@icons/MyProgram.svg';
+import SearchProgramSVG from '@icons/SearchProgram.svg';
 
 import Separator from './Separator/Separator';
-import Title from './Title/Title';
+
+import MenuButton from './MenuButton/MenuButton';
+import SubMenuWrapper from './SubMenuWrapper/SubMenuWrapper';
 
 const SideBarDiv = styled.div`
   grid-area: side;
@@ -19,12 +25,17 @@ const Logo = styled.div`
   align-items: center;
 `;
 
-const SideMenuWrapper = styled.div`
+const MenuWrapper = styled.div`
   margin-top: 30px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  height: 400px;
+  height: 450px;
+
+  & SVG {
+    height: 25px;
+    width: 25px;
+  }
 `;
 
 const SideBar = () => {
@@ -33,19 +44,32 @@ const SideBar = () => {
       <Logo>
         <LogoSVG />
       </Logo>
-      <SideMenuWrapper>
-        <Title>Exercise</Title>
-        <div>부위별운동리스트</div>
-        <div>도구별운동리스트</div>
+      <MenuWrapper>
+        <SubMenuWrapper title="Exercise">
+          <MenuButton text="부위별 운동리스트">
+            <PartSVG />
+          </MenuButton>
+          <MenuButton text="도구별 운동리스트">
+            <WeightSVG />
+          </MenuButton>
+        </SubMenuWrapper>
         <Separator />
-        <Title>Records</Title>
-        <div>운동별 기록</div>
-        <div>날짜별 기록</div>
+        <SubMenuWrapper title="Records">
+          <MenuButton text="운동별 기록">
+            <ByExerciseSVG />
+          </MenuButton>
+        </SubMenuWrapper>
         <Separator />
-        <Title>Programs</Title>
-        <div>나의 프로그램</div>
-        <div>프로그램 찾아보기</div>
-      </SideMenuWrapper>
+        <SubMenuWrapper title="Programs">
+          <MenuButton text="나의 프로그램">
+            <MyProgramSVG />
+          </MenuButton>
+          <MenuButton text="프로그램 찾아보기">
+            <SearchProgramSVG />
+          </MenuButton>
+        </SubMenuWrapper>
+        <Separator />
+      </MenuWrapper>
     </SideBarDiv>
   );
 };
