@@ -8,7 +8,7 @@ import Profile from '../Profile/Profile';
 const HeaderWrapper = styled.div`
   grid-area: head;
   height: 94px;
-  background: skyblue;
+  background: #f6f6f9;
   display: flex;
   flex-direction: column;
 `;

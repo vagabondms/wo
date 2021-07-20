@@ -12,17 +12,19 @@ const SelectedBox = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
 const NonSelectedBox = styled.div`
   width: 114px;
   height: 34px;
-  border-top: 5px solid #ebeeff;
-  color: #ebeeff;
+  border-top: 5px solid #d4d7ff;
+  color: #d4d7ff;
   text-align: center;
   vertical-align: middle;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
+
 const SubHeaderWrapper = styled.div`
   display: flex;
   justify-content: center;
