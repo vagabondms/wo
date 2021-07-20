@@ -7,7 +7,7 @@ import Profile from '../Profile/Profile';
 
 const HeaderWrapper = styled.div`
   grid-area: head;
-  height: 144px;
+  height: 94px;
   background: skyblue;
   display: flex;
   flex-direction: column;
