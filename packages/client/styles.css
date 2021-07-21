@@ -1,17 +1,17 @@
+/*
+  Montserrat
+ */
 @font-face {
   font-family: "Montserrat";
   src: url('./font/Montserrat/Montserrat-Medium.ttf'
-  );
-    
+  ); 
 }
-
 @font-face {
   font-family: "Montserrat";
   src: url('./font/Montserrat/Montserrat-Bold.ttf'
   );
   font-weight: bold;
 }
-
 @font-face {
   font-family: "Montserrat";
   src: url('./font/Montserrat/Montserrat-Light.ttf'
@@ -20,9 +20,33 @@
 }
 
 
+/* 
+  Noto Sans KR 
+*/
+@font-face {
+  font-family: "Noto-Sans";
+  src: url('./font/Noto_Sans_KR/NotoSansKR-Medium.otf')
+}
+@font-face {
+  font-family: "Noto-Sans";
+  src: url('./font/Noto_Sans_KR/NotoSansKR-Bold.otf');
+  font-weight:bold;
+}
+@font-face {
+  font-family: "Noto-Sans";
+  src: url('./font/Noto_Sans_KR/NotoSansKR-Light.otf');
+  font-weight:lighter;
+}
+
 body {
     padding: 0;
     margin: 0 ;
-    font-family: "Montserrat",sans-serif;
+    font-family: "Montserrat","Noto-Sans";
     letter-spacing: 2px;
+}
+body {
+  padding: 0;
+  margin: 0 ;
+  font-family: "Montserrat","Noto-Sans";
+  letter-spacing: 2px;
 }
