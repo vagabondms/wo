@@ -9,7 +9,7 @@ const MenuButtonWrapper = styled.div`
   color: #ffffff;
   align-items: center;
   & > * {
-    margin-right: 18px;
+    margin-right: 11px;
   }
 `;
 
