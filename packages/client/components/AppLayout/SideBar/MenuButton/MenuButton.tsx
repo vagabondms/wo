@@ -10,6 +10,7 @@ const MenuButtonWrapper = styled.div`
   align-items: center;
   & > * {
     margin-right: 11px;
+    border: 1px solid black;
   }
 `;
 
